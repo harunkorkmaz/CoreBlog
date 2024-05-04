@@ -38,7 +38,7 @@ namespace DataAccessLayer.Repositores
                 var itemType = item.GetType();
                 var idProperty = itemType.GetProperty("Id");
                 var idValue = idProperty.GetValue(item);
-
+                
                 if ((int)idValue == 0)
                 {
                     c.Add(item);

@@ -19,7 +19,7 @@ namespace EntityLayer.Concrete
         public int? RecieverId { get; set; }
         public string Subject { get; set; }
         public string MessageDetails { get; set; }
-        public DateTime Date { get; set; } = Convert.ToDateTime(DateTime.Now);
+        public DateTime Date { get; set; } = Convert.ToDateTime(DateTime.UtcNow);
         public bool Status { get; set; }
         public Writer SenderUser { get; set; }
         public Writer ReceiverUser { get; set; }

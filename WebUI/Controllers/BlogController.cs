@@ -79,7 +79,7 @@ namespace WebUI.Controllers
             var results = bv.Validate(p);
             if (results.IsValid)
             {
-                p.CreatedDate = DateTime.Now;
+                p.CreatedDate = DateTime.UtcNow;
 
                 // sql trigger sildigim icin burda kendim ekleme yapiyorum
                 // writerId artik Identity den aliniyor
