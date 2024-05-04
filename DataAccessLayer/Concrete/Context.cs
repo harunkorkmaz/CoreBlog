@@ -20,7 +20,7 @@ namespace DataAccessLayer.Concrete
             IConfiguration conf = (JsonConfigurationExtensions.AddJsonFile(new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()), "appsettings.json").Build());
 
             string stringUrl= conf["ConnectionStrings:makine1"];
-            optionsBuilder.UseSqlServer(stringUrl);
+            optionsBuilder.UseNpgsql(stringUrl);
         }
 
 

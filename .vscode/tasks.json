@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/muhtas2/muhtas2.csproj",
+                "${workspaceFolder}/WebUI/WebUI.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -21,7 +21,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/muhtas2/muhtas2.csproj"
+                "${workspaceFolder}/WebUI/WebUI.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
