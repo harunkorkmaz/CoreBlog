@@ -1,7 +1,6 @@
 ﻿@using DataAccessLayer.Abstract;
 @using EntityLayer.Concrete;
 
-
 @inject IUserDal tokenService;
 
 @{
@@ -11,16 +10,16 @@
         LoginUser = new Writer() { Id = 0};
     }
 }
+
 <!--Header-->
 <header>
-    <div class="top-bar_sub_w3layouts container-fluid">
+    <div class="top-bar_sub_w3layouts container">
         <div class="row">
             <div class="col-md-4 logo text-left">
-                <a class="navbar-brand" href="/blog">
+                <a class="navbar-brand" href="/">
                     <i class="fab fa-linode"></i> Core Blog
                 </a>
             </div>
-
             <div class="col-md-4 top-forms text-center mt-lg-3 mt-md-1 mt-0">
                 @if (LoginUser.Id != 0)
                 {
@@ -39,10 +38,9 @@
                         </a>
                     </span>
                 }
-
             </div>
 
-            <div class="col-md-4 log-icons text-right d-none">
+            @* <div class="col-md-4 log-icons text-right d-none">
 
                 <ul class="social_list1 mt-3">
 
@@ -69,7 +67,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> *@
         </div>
     </div>
 
@@ -80,7 +78,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="container collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/home">
@@ -92,15 +90,18 @@
                         <a class="nav-link" href="/about/index">About</a>
                     </li>
 
-                    <li class="nav-item">
+                    @* <li class="nav-item">
                         <a class="nav-link" href="/blog/index">
                             Blogs
                             <span class="sr-only">(current)</span>
                         </a>
-                    </li>
+                    </li> *@
                     <li class="nav-item">
                         <a class="nav-link" href="/contact/index">Contact</a>
                     </li>
+                </ul>
+
+                <ul class="navbar-nav ml-auto">
                     @if (LoginUser.Id != 0)
                     {
                         <li class="nav-item">
@@ -114,14 +115,14 @@
                         </li>
                     }
                 </ul>
-                <form action="#" method="post" class="form-inline my-2 my-lg-0 header-search">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search here..." name="Search" required="">
-                    <button class="btn btn1 my-2 my-sm-0" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
             </div>
         </nav>
     </div>
 </header>
 <!--//header-->
+@*  <form action="#" method="post" class="form-inline my-2 my-lg-0 header-search">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search here..." name="Search" required="">
+                    <button class="btn btn1 my-2 my-sm-0" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form> *@

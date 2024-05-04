@@ -23,11 +23,11 @@ namespace WebUI.Controllers
             _userDal = userDal;
         }
 
-        [AllowAnonymous]
-        public IActionResult Index()
-        {
-            return View(_blogManager.GetList());
-        }
+        //[AllowAnonymous]
+        //public IActionResult Index()
+        //{
+        //    return View(_blogManager.GetList());
+        //}
 
         [AllowAnonymous]
         public IActionResult Details(int id)

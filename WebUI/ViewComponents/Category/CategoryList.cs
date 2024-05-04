@@ -8,7 +8,7 @@ namespace WebUI.ViewComponents.Category
     [AllowAnonymous]
     public class CategoryList : ViewComponent
     {
-        CategoryManager _categoryManager = new CategoryManager(new EfCategoryReposiyory());
+        CategoryManager _categoryManager = new(new EfCategoryReposiyory());
         public IViewComponentResult Invoke()
         {
             var item = _categoryManager.GetListWithBlogs();

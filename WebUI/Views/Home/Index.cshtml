@@ -6,47 +6,47 @@
 @model List<Blog>
 
 <!--/main-->
-<section class="container-fluid row" style="margin-right:50px;margin-left:50px;">
-    <div class="col-lg-8 left-blog-info-w3layouts-agileits text-left">
-        <h3 class="tittle">Blog Posts</h3>
+<section class="container row" style="justify-content: space-between;">
+    <div class="col-lg-8  text-left">
+        @* <h3 class="tittle">Blog Posts</h3> *@
         <div class="inner-sec">
             <!--left-->
-            <div class="left-blog-info-w3layouts-agileits text-left">
-                <div class="row">
+            <div class="">
+                <div class="">
                     @foreach (var item in Model)
                     {
-                        <div class="row my-4">
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img src="@item.BlogImage" class="card-img-top img-fluid" alt="">
+                        <div class="row my-2">
+                            <div class="col-md-3" style="padding: 0px !important;">
+                                <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">
+                                    <img src="@item.BlogImage" class="card-img-top img-fluid" alt="" style="align-items: stretch;display: flex;">
                                 </a>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-9" style="padding-left: 0px;">
                                 <div class="card-body">
-                                    <ul class="blog-icons my-4">
+                                    <ul class="blog-icons">
                                         <li>
-                                            <a asp-action="Details" asp-route-id="@item.Id">
+                                            <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">
                                                 <i class="far fa-calendar-alt"></i>  @(@item.CreatedDate == default(DateTime) ? "--/--/--" : ((DateTime)@item.CreatedDate).ToString("dd/MMM/yyyy"))
                                             </a>
                                         </li>
                                         <li class="mx-2">
-                                            <a href="#">
-                                                <i class="far fa-comment"></i> @(item.Category == null ? "" : @item.Category.CategoryName)
+                                            <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">
+                                                <i class="far fa-eye"></i> @(item.Category == null ? "" : @item.Category.CategoryName)
                                             </a>
                                         </li>
                                         @* <li>
                                             <a href="#">
-                                                <i class="fas fa-eye"></i> @item.BlogThumbnailImage
+                                                <i class="fas fa-comment"></i> @item.BlogThumbnailImage
                                             </a>
                                         </li> *@
                                     </ul>
-                                    <h5 class="card-title">
-                                        <a href="#">@item.BlogTitle</a>
+                                    <h5 class="card-title" style="margin-top: 10px !important;">
+                                        <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">@item.BlogTitle</a>
                                     </h5>
                                     <p class="card-text mb-3">
                                         @item.BlogContent.Substring(0, 130)...
                                     </p>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary read-m">Read More</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Blog" class="btn btn-primary read-m">Read More</a>
                                 </div>
                             </div>
 
