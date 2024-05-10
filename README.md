@@ -2,7 +2,7 @@
 Murat Yücedağ Eğitim [Vidyo serisi](https://www.youtube.com/playlist?list=PLKnjBHu2xXNNkinaVhPqPZG0ubaLN63ci) Blog sayfa projesi
 <br>
 <br>
-Projeye güncel olarak devam etmekte....
+Projeye bitti
 
 #### Canlı versiyon aktif => <a href="https://blog.karunlander.net" target="_blank">blog.karunlander.net/</a> 
 
