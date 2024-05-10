@@ -1,17 +1,16 @@
-﻿using BusinessLayer.Concrete;
-using BusinessLayer.ValidationRules;
+﻿using BusinessLayer.ValidationRules;
+using DataAccessLayer.Abstract;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.Controllers
+namespace WebUI.Controllers;
+
+public class CategoryController(ICategoryDal categoryDal) : Controller
 {
-    public class CategoryController : Controller
+    private readonly ICategoryDal _categoryDal = categoryDal;
+    public IActionResult Index()
     {
-        CategoryManager _categoryManager = new CategoryManager(new EfCategoryReposiyory());
-        public IActionResult Index()
-        {
-            return View(_categoryManager.GetList());
-        }
+        return View(_categoryDal.GetListAll());
     }
 }

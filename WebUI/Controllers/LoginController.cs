@@ -7,69 +7,49 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebUI.Models;
 
-namespace WebUI.Controllers
+namespace WebUI.Controllers;
+
+[AllowAnonymous]
+public class LoginController : Controller
 {
-    [AllowAnonymous]
-    public class LoginController : Controller
+    private readonly SignInManager<AppUser> _signInManager;
+
+    public LoginController(SignInManager<AppUser> signInManager)
     {
-        private readonly SignInManager<AppUser> _signInManager;
+        _signInManager = signInManager;
+    }
 
-        public LoginController(SignInManager<AppUser> signInManager)
-        {
-            _signInManager = signInManager;
-        }
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        return View();
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
+    [HttpPost]
+    public async Task<IActionResult> Index(UserSignInViewModel model)
+    {
+        if (ModelState.IsValid)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Index(UserSignInViewModel model)
-        {
-            if (ModelState.IsValid)
+            var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, true);
+            if (result.Succeeded)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, true);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Blog");
-                }
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Blog");
             }
-            return View("Index");
-        }
-
-        [Route("/login/logout")]
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Login");
         }
-        [HttpGet]
-        public async Task<IActionResult> AccessDenied()
-        {
-            return View();
-        }
-        //[HttpPost]
-        //public async Task<IActionResult> Index(Writer p)
-        //{
-        //    Context c = new Context();
-        //    var dataValue = c.Writers.FirstOrDefault(x => x.WriterMail == p.WriterMail && x.WriterPassword == p.WriterPassword);
-        //    if (dataValue != null)
-        //    {
-        //        var claims = new List<Claim> {
-        //            new Claim (ClaimTypes.Name, p.WriterMail)
-        //        };
+        return View("Index");
+    }
 
-        //        var userIdentity = new ClaimsIdentity(claims, "a");
-        //        ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-        //        await HttpContext.SignInAsync(principal);
+    [Route("/login/logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index", "Login");
+    }
 
-        //        HttpContext.Session.SetString("username", p.WriterMail);
-        //        return RedirectToAction("Index", "Blog");
-        //    }
-        //    return View();
-        //}
+    [HttpGet]
+    public async Task<IActionResult> AccessDenied()
+    {
+        return View();
     }
 }

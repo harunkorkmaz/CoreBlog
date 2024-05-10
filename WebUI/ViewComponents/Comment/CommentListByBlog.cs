@@ -1,21 +1,17 @@
 ﻿using DataAccessLayer.Abstract;
-using WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using BusinessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
 
-namespace WebUI.ViewComponents
+namespace WebUI.ViewComponents;
+
+public class CommentListByBlog(ICommentDal commentDal) : ViewComponent
 {
-    public class CommentListByBlog : ViewComponent
-    {
-        CommentManager _commentManager = new CommentManager(new EfCommentRepository());
+    ICommentDal _commentDal = commentDal;
 
-        [HttpGet]
-        public IViewComponentResult Invoke(int BlogId)
-        {
-            var item = _commentManager.GetList(BlogId);
-            return View(item);
-        }
+    [HttpGet]
+    public IViewComponentResult Invoke(int BlogId)
+    {
+        var item = _commentDal.GetAllwithUser(BlogId);
+        return View(item);
     }
 }
+

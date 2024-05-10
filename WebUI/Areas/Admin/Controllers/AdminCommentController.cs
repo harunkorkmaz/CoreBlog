@@ -1,20 +1,18 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
-using Microsoft.AspNetCore.Authorization;
+﻿using DataAccessLayer.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.Areas.Admin.Controllers
+namespace WebUI.Areas.Admin.Controllers;
+
+[Area("Admin")]
+
+public class AdminCommentController(ICommentDal commentDal) : Controller
 {
-    [Area("Admin")]
 
-    public class AdminCommentController : Controller
+    private readonly ICommentDal _commentDal = commentDal;
+
+    public IActionResult Index()
     {
-        CommentManager cm = new CommentManager(new EfCommentRepository());
-
-        public IActionResult Index()
-        {
-            var vals = cm.GetListAll();
-            return View(vals);
-        }
+        var vals = _commentDal.GetListAll();
+        return View(vals);
     }
 }

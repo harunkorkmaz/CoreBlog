@@ -1,18 +1,16 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.Abstract;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 
-namespace WebUI.ViewComponents.Blog
+namespace WebUI.ViewComponents.Blog;
+
+public class Last3Blogs(IBlogDal blogDal) : ViewComponent
 {
-    public class Last3Blogs : ViewComponent
-    {
-        BlogManager bm = new BlogManager(new EfBlogRepository());
+    private readonly IBlogDal _blogDal = blogDal;
 
-        public IViewComponentResult Invoke()
-        {
-            var vals = bm.GetLast3Blogs();
-            return View(vals);
-        }
+    public IViewComponentResult Invoke()
+    {
+        var vals = _blogDal.GetAll().Take(3).ToList();
+        return View(vals);
     }
 }
+

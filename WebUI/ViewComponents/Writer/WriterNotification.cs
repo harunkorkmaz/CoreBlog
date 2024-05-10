@@ -1,16 +1,15 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.ViewComponents.Writer
+namespace WebUI.ViewComponents.Writer;
+
+public class WriterNotification(INotificationDal notificationdal) : ViewComponent
 {
-    public class WriterNotification : ViewComponent
+    private readonly INotificationDal _notificationdal;
+
+    public IViewComponentResult Invoke()
     {
-        NotificationManager nm = new NotificationManager(new EfNotificationRepository());
-        public IViewComponentResult Invoke()
-        {
-            var vals = nm.GetList();
-            return View(vals);
-        }
+        var vals = _notificationdal.GetListAll();
+        return View(vals);
     }
 }

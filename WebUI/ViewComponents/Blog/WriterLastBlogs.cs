@@ -1,21 +1,18 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 
-namespace WebUI.ViewComponents.Blog
+namespace WebUI.ViewComponents.Blog;
+
+[AllowAnonymous]
+public class WriterLastBlogs(IBlogDal blogDal) : ViewComponent
 {
-    [AllowAnonymous]
-    public class WriterLastBlogs : ViewComponent
-    {
-        BlogManager bm = new BlogManager(new EfBlogRepository());
+    private readonly IBlogDal _blogDal = blogDal;
 
-        [HttpGet]
-        public IViewComponentResult Invoke(int id)
-        {
-            var vals = bm?.GetBlogByWriter(id);
-            return View(vals);
-        }
+    [HttpGet]
+    public IViewComponentResult Invoke(int id)
+    {
+        var vals = _blogDal?.GetAll(id);
+        return View(vals);
     }
 }

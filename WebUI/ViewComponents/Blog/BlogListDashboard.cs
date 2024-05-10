@@ -1,17 +1,15 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.ViewComponents.Blog
-{
-    public class BlogListDashboard : ViewComponent
-    {
-        BlogManager bm = new BlogManager(new EfBlogRepository());
+namespace WebUI.ViewComponents.Blog;
 
-        public IViewComponentResult Invoke()
-        {
-            var vals = bm.GetLast3Blogs();
-            return View(vals);
-        }
+public class BlogListDashboard(IBlogDal blogDal) : ViewComponent
+{
+    private readonly IBlogDal _blogDal = blogDal;
+
+    public IViewComponentResult Invoke()
+    {
+        var vals = _blogDal.GetAll().Take(3).ToList();
+        return View(vals);
     }
 }

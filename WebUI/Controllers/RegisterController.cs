@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using BusinessLayer.Concrete;
 using BusinessLayer.ValidationRules;
+using DataAccessLayer.Abstract;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using EntityLayer.Dto;
@@ -12,17 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebUI.Controllers;
 
 [AllowAnonymous]
-public class RegisterController : Controller
+public class RegisterController(UserManager<AppUser> userManger, IMapper mapper, IWriterDal writerdal) : Controller
 {
-    WriterManager _writerManager = new WriterManager(new EfWriterRepository());
-    private readonly UserManager<AppUser> _userManger;
-    private readonly IMapper _mapper;
-
-    public RegisterController(UserManager<AppUser> userManger, IMapper mapper)
-    {
-        _userManger = userManger;
-        _mapper = mapper;
-    }
+    private readonly UserManager<AppUser> _userManger = userManger;
+    private readonly IMapper _mapper = mapper;
+    private readonly IWriterDal _writerdal = writerdal;
 
     [HttpGet]
     public IActionResult Index()
@@ -51,7 +45,7 @@ public class RegisterController : Controller
             else
                 _mappedPerson.WriterImage = "/writer/assets/images/faces-clipart/pic-" + new Random().Next(1, 4) + ".png";
 
-            _writerManager.TAdd(_mappedPerson);
+            _writerdal.Insert(_mappedPerson);
 
             AppUser user = new AppUser()
             {

@@ -1,4 +1,4 @@
-﻿using BusinessLayer.Concrete;
+﻿using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
@@ -12,22 +12,18 @@ namespace WebUI.Areas.Admin.Controllers
     [Area("Admin")]
 
     [Route("Admin/[controller]/[action]")]
-    public class MessageController : Controller
+    public class MessageController(IMessage2Dal message2dal, UserManager<AppUser> userManager) : Controller
     {
-        Message2Manager mm = new Message2Manager(new EfMessage2Repository());
-        private readonly UserManager<AppUser> _userManager;
+        private readonly UserManager<AppUser> _userManager = userManager;
+        private readonly IMessage2Dal _message2dal = message2dal;
 
-        public MessageController(UserManager<AppUser> userManager)
-        {
-            _userManager = userManager;
-        }
         [HttpGet]
         public async Task<IActionResult> Inbox()
         {
             var username = User.Identity.Name;
             var context = new Context();
             var id = context.Writers.Where(x => x.WriterName == username).Select(x => x.Id).FirstOrDefault();
-            return View(mm.GetInboxListByWriter(id));
+            return View(_message2dal.GetInboxMessageByWriter(id));
         }
 
         [HttpGet]
@@ -36,7 +32,7 @@ namespace WebUI.Areas.Admin.Controllers
             var username = User.Identity.Name;
             var context = new Context();
             var id = context.Writers.Where(x => x.WriterName == username).Select(x => x.Id).FirstOrDefault();
-            var list = mm.GetSendboxListByWriter(id);
+            var list = _message2dal.GetInboxMessageByWriter(id);
             return View(list);
         }
 
@@ -58,7 +54,7 @@ namespace WebUI.Areas.Admin.Controllers
             message.RecieverId = recieverId;
             message.SenderId = senderId;
 
-            mm.TAdd(message);
+            _message2dal.Insert(message);
 
             return RedirectToAction("sendbox");
         }

@@ -1,27 +1,24 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.Abstract;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.Controllers
+namespace WebUI.Controllers;
+
+public class NewsLetterController(INewsLetterDal newsLetter) : Controller
 {
-    public class NewsLetterController : Controller
+    INewsLetterDal _newsLetter = newsLetter;
+
+    [HttpGet]
+    public PartialViewResult SubscribeMail()
     {
-        NewsLetterManager lm = new NewsLetterManager(new EfNewsLetterRepository());
+        return PartialView();
+    }
 
-
-        [HttpGet]
-        public PartialViewResult SubscribeMail()
-        {
-            return PartialView();
-        }
-
-        [HttpPost]
-        public IActionResult SubscribeMail(int id, NewsLetter model)
-        {
-            model.MailStatus = true;
-            lm.AddNewsLetter(model);
-            return RedirectToAction("Details", "Blog", new { id = id } );
-        }
+    [HttpPost]
+    public IActionResult SubscribeMail(int id, NewsLetter model)
+    {
+        model.MailStatus = true;
+        _newsLetter.Insert(model);
+        return RedirectToAction("Details", "Blog", new { id = id });
     }
 }

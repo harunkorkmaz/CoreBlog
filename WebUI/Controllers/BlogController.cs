@@ -1,5 +1,4 @@
-﻿using BusinessLayer.Concrete;
-using BusinessLayer.ValidationRules;
+﻿using BusinessLayer.ValidationRules;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
@@ -7,16 +6,15 @@ using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
 
-namespace WebUI.Controllers
+namespace WebUI.Controllers;
+
+public class BlogController(IUserDal userDal, IBlogDal blogDal, ICommentDal commentDal, ICategoryDal categoryDal) : Controller
 {
-
-    public class BlogController : Controller
-    {
-        BlogManager _blogManager = new BlogManager(new EfBlogRepository());
-        private readonly IUserDal _userDal;
-        CommentManager _commentManager = new CommentManager(new EfCommentRepository());
+    private readonly IBlogDal _blogManager = blogDal;
+    private readonly ICommentDal _commentDal = commentDal;
+    private readonly IUserDal _userDal = userDal;
+    private readonly ICategoryDal _categoryDal = categoryDal;
 
         public BlogController(IUserDal userDal)
         {
@@ -29,87 +27,87 @@ namespace WebUI.Controllers
         //    return View(_blogManager.GetList());
         //}
 
-        [AllowAnonymous]
-        public IActionResult Details(int id)
+    [AllowAnonymous]
+    public IActionResult Details(int id)
+    {
+        ViewBag.CommentCount = _commentDal.GetAllwithUser(id).Count();
+        return View(_blogManager.GetById(id));
+    }
+
+    [AllowAnonymous]
+    public IActionResult GetBLogByWriter()
+    {
+        var userName = User.Identity?.Name;
+        if (userName == null)
+            return RedirectToAction("Index", "Home");
+        var userid = _userDal.GetCurrentUserId(userName);
+        return View(_blogManager.GetById(userid));
+    }
+
+    [HttpGet]
+    public IActionResult BlogAdd(int? id)
+    {
+        //CategoryManager cm = new CategoryManager(new EfCategoryReposiyory());
+        List<SelectListItem> categoryValues = (from x in _categoryDal.GetListAll()
+                                               select new SelectListItem
+                                               {
+                                                   Text = x.CategoryName,
+                                                   Value = x.Id.ToString()
+                                               }).ToList();
+        var userName = User.Identity?.Name;
+        Context c = new Context();
+        var userid = c.Writers.Where(x => x.WriterName == userName).Select(y => y.Id).FirstOrDefault();
+
+        ViewBag.id = userid;
+        ViewBag.cv = categoryValues;
+
+        if (id != 0 && id != null)
         {
-            ViewBag.CommentCount =  _commentManager.GetList(id).Count();
-            return View(_blogManager.GetBlogById(id));
+            var item = _blogManager.GetById((int)userid);
+            return View(item);
         }
+        return View();
+    }
 
-        [AllowAnonymous]
-        public IActionResult GetBLogByWriter()
+    [HttpPost]
+    public IActionResult BlogAdd(Blog p)
+    {
+        BlogValidator bv = new BlogValidator();
+        var results = bv.Validate(p);
+        if (results.IsValid)
         {
-            var userName = User.Identity?.Name;
-            if (userName == null)
-                return RedirectToAction("Index", "Home");
-            var userid = _userDal.GetCurrentUserId(userName);
-            return View(_blogManager.GetBlogByWriter(userid));
-        }
+            p.CreatedDate = DateTime.UtcNow;
 
-        [HttpGet]
-        public IActionResult BlogAdd(int? id)
-        {
-
-            CategoryManager cm = new CategoryManager(new EfCategoryReposiyory());
-            List<SelectListItem> categoryValues = (from x in cm.GetList()
-                                                   select new SelectListItem
-                                                   {
-                                                       Text = x.CategoryName,
-                                                       Value = x.Id.ToString()
-                                                   }).ToList();
-            var userName = User.Identity?.Name;
-            Context c = new Context();
-            var userid = c.Writers.Where(x => x.WriterName == userName).Select(y => y.Id).FirstOrDefault();
-
-            ViewBag.id = userid;
-            ViewBag.cv = categoryValues;
-
-            if (id != 0 && id != null)
+            // sql trigger sildigim icin burda kendim ekleme yapiyorum
+            // writerId artik Identity den aliniyor
+            using (var context = new Context())
             {
-                var item = _blogManager.GetBlogById((int)userid);
-                return View(item);
+                var username = User.Identity.Name;
+                var id = context.Writers.Where(x => x.WriterName == username).Select(x => x.Id).FirstOrDefault();
+                p.WriterId = id;
+
+                _blogManager.Insert(p);
+
+                BlogRating newRatingRow = new BlogRating { BLogId = p.Id, RatingCount = 0, TotalScore = 0 };
+                context.BlogRatings.Add(newRatingRow);
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("GetBlogByWriter", "Blog");
+        }
+        else
+        {
+            foreach (var item in results.Errors)
+            {
+                ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
             }
             return View();
         }
+    }
 
-        [HttpPost]
-        public IActionResult BlogAdd(Blog p)
-        {
-            BlogValidator bv = new BlogValidator();
-            var results = bv.Validate(p);
-            if (results.IsValid)
-            {
-                p.CreatedDate = DateTime.UtcNow;
-
-                // sql trigger sildigim icin burda kendim ekleme yapiyorum
-                // writerId artik Identity den aliniyor
-                using (var context = new Context())
-                {
-                    var username = User.Identity.Name;
-                    var id = context.Writers.Where(x => x.WriterName == username).Select(x => x.Id).FirstOrDefault();
-                    p.WriterId = id;
-                    _blogManager.TAdd(p);
-                    BlogRating newRatingRow = new BlogRating { BLogId = p.Id, RatingCount = 0, TotalScore = 0 };
-                    context.BlogRatings.Add(newRatingRow);
-                    context.SaveChanges();
-                }
-
-                return RedirectToAction("GetBlogByWriter", "Blog");
-            }
-            else
-            {
-                foreach (var item in results.Errors)
-                {
-                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-                }
-                return View();
-            }
-        }
-
-        public IActionResult BlogDelete(int id)
-        {
-            _blogManager.DeleteBlog(id);
-            return RedirectToAction("GetBLogByWriter");
-        }
+    public IActionResult BlogDelete(int id)
+    {
+        _blogManager.Delete(id);
+        return RedirectToAction("GetBLogByWriter");
     }
 }

@@ -1,19 +1,17 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.Abstract;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.Controllers
+namespace WebUI.Controllers;
+
+[AllowAnonymous]
+public class AboutController(IAboutDal aboutDal) : Controller
 {
-    [AllowAnonymous]
-    public class AboutController : Controller
+    IAboutDal _aboutDal = aboutDal;
+
+    public IActionResult Index()
     {
-        AboutManager am = new AboutManager(new EfAboutRepository());
-        public IActionResult Index()
-        {
-            var items = am.GetList();
-            return View(items);
-        }
+        var items = _aboutDal.GetListAll();
+        return View(items);
     }
 }

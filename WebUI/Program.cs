@@ -25,6 +25,12 @@ builder.Services.AddMvc(config =>
 
 builder.Services.AddMvc();
 builder.Services.AddScoped<IUserDal, EfUserRepository>();
+builder.Services.AddScoped<IBlogDal, EfBlogRepository>();
+builder.Services.AddScoped<ICommentDal, EfCommentRepository>();
+builder.Services.AddScoped<IContactDal, EfContactRepository>();
+builder.Services.AddScoped<IWriterDal, EfWriterRepository>();
+builder.Services.AddScoped<INotificationDal, EfNotificationRepository>();
+builder.Services.AddScoped<ICategoryDal, EfCategoryReposiyory>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
     x => x.LoginPath = "/Login/Index"

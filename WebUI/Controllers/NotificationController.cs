@@ -1,23 +1,22 @@
-﻿using BusinessLayer.Concrete;
+﻿using DataAccessLayer.Abstract;
 using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.Controllers
+namespace WebUI.Controllers;
+
+public class NotificationController(INotificationDal notificationdal) : Controller
 {
-    public class NotificationController : Controller
+    private readonly INotificationDal _notificationdal = notificationdal;
+
+    public IActionResult Index()
     {
-        NotificationManager nm = new NotificationManager(new EfNotificationRepository());
+        return View();
+    }
+    [AllowAnonymous]
+    public IActionResult AllNotification()
+    {
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-        [AllowAnonymous]
-        public IActionResult AllNotification()
-        {
-
-            return View(nm.GetList());
-        }
+        return View(_notificationdal.GetListAll());
     }
 }

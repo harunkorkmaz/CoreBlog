@@ -1,16 +1,15 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.ViewComponents.Category
+namespace WebUI.ViewComponents.Category;
+
+public class CategoryListDashboard(ICategoryDal categoryDal) : ViewComponent
 {
-    public class CategoryListDashboard : ViewComponent
+    private readonly ICategoryDal _categoryDal = categoryDal;
+    public IViewComponentResult Invoke()
     {
-        CategoryManager _categoryManager = new CategoryManager(new EfCategoryReposiyory());
-        public IViewComponentResult Invoke()
-        {
-            var item = _categoryManager.GetList();
-            return View(item);
-        }
+        var item = _categoryDal.GetListAll();
+        return View(item);
     }
 }
+

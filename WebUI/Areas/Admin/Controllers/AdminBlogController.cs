@@ -1,19 +1,16 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
-using Microsoft.AspNetCore.Authorization;
+﻿using DataAccessLayer.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.Areas.Admin.Controllers
+namespace WebUI.Areas.Admin.Controllers;
+
+[Area("Admin")]
+
+public class AdminBlogController(IBlogDal blogDal) : Controller
 {
-    [Area("Admin")]
+    private readonly IBlogDal _blogDal = blogDal;
 
-    public class AdminBlogController : Controller
+    public async Task<IActionResult> Index()
     {
-        BlogManager _blogManager = new BlogManager(new EfBlogRepository());
-
-        public async Task<IActionResult> Index()
-        {
-            return View(_blogManager.GetList());
-        }
+        return View(_blogDal.GetAll());
     }
 }
