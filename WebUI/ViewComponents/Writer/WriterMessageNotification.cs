@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.ViewComponents.Writer;
 
-public class WriterMessageNotification(IMessage2Dal message2dal) : ViewComponent
+public class WriterMessageNotification(EfMessage2Repository message2dal) : ViewComponent
 {
-    private readonly IMessage2Dal _message2dal = message2dal;
+    private readonly EfMessage2Repository _message2dal = message2dal;
 
     public IViewComponentResult Invoke()
     {

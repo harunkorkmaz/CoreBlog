@@ -1,21 +1,19 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebUI.Areas.Admin.Models;
 
-namespace WebUI.Areas.Admin.Controllers
+namespace WebUI.Areas.Admin.Controllers;
+
+[Area("Admin")]
+[Route("/Admin/[Controller]/[Action]/")]
+public class WriterController : Controller
 {
-    [Area("Admin")]
-
-    [Route("/Admin/[Controller]/[Action]/")]
-    public class WriterController : Controller
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
+    }
 
-        public static List<WriterClass> writers = new List<WriterClass>
+    public static List<WriterClass> writers = new List<WriterClass>
         {
             new WriterClass
             {
@@ -34,36 +32,35 @@ namespace WebUI.Areas.Admin.Controllers
             }
         };
 
-        public IActionResult WriterList()
-        {
-            var jsonwriter = JsonConvert.SerializeObject(writers);
-            return Json(jsonwriter);
-        }
+    public IActionResult WriterList()
+    {
+        var jsonwriter = JsonConvert.SerializeObject(writers);
+        return Json(jsonwriter);
+    }
 
-        [HttpGet("{id}")]
-        public IActionResult GetWriterById(int id)
-        {
-            var writer = writers.FirstOrDefault(x => x.Id == id);
-            var json = JsonConvert.SerializeObject(writer);
-            return Json(json);
-        }
+    [HttpGet("{id}")]
+    public IActionResult GetWriterById(int id)
+    {
+        var writer = writers.FirstOrDefault(x => x.Id == id);
+        var json = JsonConvert.SerializeObject(writer);
+        return Json(json);
+    }
 
-        [HttpPost]
-        public IActionResult AddWriter(WriterClass writer)
-        {
-            writers.Add(writer);
-            var jsonWriter = JsonConvert.SerializeObject(writers);
-            return Json(jsonWriter);
-        }
+    [HttpPost]
+    public IActionResult AddWriter(WriterClass writer)
+    {
+        writers.Add(writer);
+        var jsonWriter = JsonConvert.SerializeObject(writers);
+        return Json(jsonWriter);
+    }
 
-        [HttpDelete, Route("{id}")]
-        public IActionResult DeleteWriter(int id)
-        {
-            var model = writers.FirstOrDefault(x => x.Id == id);
-            if (model == null)
-                return NotFound();
-            writers.Remove(model);
-            return Json(model);
-        }
+    [HttpDelete, Route("{id}")]
+    public IActionResult DeleteWriter(int id)
+    {
+        var model = writers.FirstOrDefault(x => x.Id == id);
+        if (model == null)
+            return NotFound();
+        writers.Remove(model);
+        return Json(model);
     }
 }

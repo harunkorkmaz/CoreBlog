@@ -1,13 +1,12 @@
-﻿using DataAccessLayer.Abstract;
+﻿using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Areas.Admin.Controllers;
 
 [Area("Admin")]
-
-public class AdminBlogController(IBlogDal blogDal) : Controller
+public class AdminBlogController(EfBlogRepository blogDal) : Controller
 {
-    private readonly IBlogDal _blogDal = blogDal;
+    private readonly EfBlogRepository _blogDal = blogDal;
 
     public async Task<IActionResult> Index()
     {

@@ -1,15 +1,16 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.ViewComponents.Blog;
 
-public class Last3Blogs(IBlogDal blogDal) : ViewComponent
+public class Last3Blogs(EfBlogRepository blogrepo) : ViewComponent
 {
-    private readonly IBlogDal _blogDal = blogDal;
+    private readonly EfBlogRepository _blogrepo = blogrepo;
 
     public IViewComponentResult Invoke()
     {
-        var vals = _blogDal.GetAll().Take(3).ToList();
+        var vals = _blogrepo.GetAll().Take(3).ToList();
         return View(vals);
     }
 }

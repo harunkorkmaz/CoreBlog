@@ -1,14 +1,15 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Areas.Admin.Controllers;
 
 [Area("Admin")]
 
-public class AdminCommentController(ICommentDal commentDal) : Controller
+public class AdminCommentController(EfCommentRepository commentDal) : Controller
 {
 
-    private readonly ICommentDal _commentDal = commentDal;
+    private readonly EfCommentRepository _commentDal = commentDal;
 
     public IActionResult Index()
     {

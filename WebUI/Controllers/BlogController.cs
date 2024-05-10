@@ -9,29 +9,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebUI.Controllers;
 
-public class BlogController(IUserDal userDal, IBlogDal blogDal, ICommentDal commentDal, ICategoryDal categoryDal) : Controller
+public class BlogController(IUserDal userDal, EfBlogRepository blogrepo, EfCommentRepository commentDal, EfCategoryReposiyory categoryDal) : Controller
 {
-    private readonly IBlogDal _blogManager = blogDal;
-    private readonly ICommentDal _commentDal = commentDal;
+    private readonly EfBlogRepository _blogrepo = blogrepo;
+    private readonly EfCommentRepository _commentDal = commentDal;
     private readonly IUserDal _userDal = userDal;
-    private readonly ICategoryDal _categoryDal = categoryDal;
-
-        public BlogController(IUserDal userDal)
-        {
-            _userDal = userDal;
-        }
-
-        //[AllowAnonymous]
-        //public IActionResult Index()
-        //{
-        //    return View(_blogManager.GetList());
-        //}
+    private readonly EfCategoryReposiyory _categoryDal = categoryDal;
 
     [AllowAnonymous]
     public IActionResult Details(int id)
     {
         ViewBag.CommentCount = _commentDal.GetAllwithUser(id).Count();
-        return View(_blogManager.GetById(id));
+        return View(_blogrepo.GetById(id));
     }
 
     [AllowAnonymous]
@@ -41,13 +30,12 @@ public class BlogController(IUserDal userDal, IBlogDal blogDal, ICommentDal comm
         if (userName == null)
             return RedirectToAction("Index", "Home");
         var userid = _userDal.GetCurrentUserId(userName);
-        return View(_blogManager.GetById(userid));
+        return View(_blogrepo.GetAll(userid));
     }
 
     [HttpGet]
     public IActionResult BlogAdd(int? id)
     {
-        //CategoryManager cm = new CategoryManager(new EfCategoryReposiyory());
         List<SelectListItem> categoryValues = (from x in _categoryDal.GetListAll()
                                                select new SelectListItem
                                                {
@@ -63,7 +51,7 @@ public class BlogController(IUserDal userDal, IBlogDal blogDal, ICommentDal comm
 
         if (id != 0 && id != null)
         {
-            var item = _blogManager.GetById((int)userid);
+            var item = _blogrepo.GetById((int)userid);
             return View(item);
         }
         return View();
@@ -86,7 +74,7 @@ public class BlogController(IUserDal userDal, IBlogDal blogDal, ICommentDal comm
                 var id = context.Writers.Where(x => x.WriterName == username).Select(x => x.Id).FirstOrDefault();
                 p.WriterId = id;
 
-                _blogManager.Insert(p);
+                _blogrepo.Insert(p);
 
                 BlogRating newRatingRow = new BlogRating { BLogId = p.Id, RatingCount = 0, TotalScore = 0 };
                 context.BlogRatings.Add(newRatingRow);
@@ -107,7 +95,7 @@ public class BlogController(IUserDal userDal, IBlogDal blogDal, ICommentDal comm
 
     public IActionResult BlogDelete(int id)
     {
-        _blogManager.Delete(id);
+        _blogrepo.Delete(id);
         return RedirectToAction("GetBLogByWriter");
     }
 }

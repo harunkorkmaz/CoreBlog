@@ -1,18 +1,17 @@
-﻿using DataAccessLayer.Abstract;
-using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers;
 
 [AllowAnonymous]
-public class HomeController(IBlogDal blogDal) : Controller
+public class HomeController(EfBlogRepository blogrepo) : Controller
 {
-    private readonly IBlogDal _blogDal = blogDal;
+    private readonly EfBlogRepository _blogrepo = blogrepo;
 
     public IActionResult Index()
     {
-        return View(_blogDal.GetAll());
+        return View(_blogrepo.GetAll());
     }
 }
 

@@ -12,10 +12,10 @@ using WebUI.Models;
 
 namespace WebUI.Controllers;
 
-public class WriterController(UserManager<AppUser> userManager, IWriterDal writerDal) : Controller
+public class WriterController(UserManager<AppUser> userManager, EfWriterRepository writerDal) : Controller
 {
     private readonly UserManager<AppUser> _userManager = userManager;
-    private readonly IWriterDal _writerDal = writerDal;
+    private readonly EfWriterRepository _writerDal = writerDal;
 
     [Authorize]
     public IActionResult Index()

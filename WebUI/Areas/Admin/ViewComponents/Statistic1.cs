@@ -1,13 +1,14 @@
 ﻿using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
+using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
 
 namespace WebUI.Areas.Admin.ViewComponents;
 
-public class Statistic1(IBlogDal blogDal) : ViewComponent
+public class Statistic1(EfBlogRepository blogDal) : ViewComponent
 {
-    private readonly IBlogDal _blogDal = blogDal;
+    private readonly EfBlogRepository _blogDal = blogDal;
     private readonly Context context = new();
 
     public IViewComponentResult Invoke()

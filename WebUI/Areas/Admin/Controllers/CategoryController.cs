@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.ValidationRules;
 using DataAccessLayer.Abstract;
+using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
@@ -9,9 +10,9 @@ namespace WebUI.Areas.Admin.Controllers;
 [Area("Admin")]
 
 [Route("Admin/[controller]")]
-public class CategoryController(ICategoryDal categoryDal) : Controller
+public class CategoryController(EfCategoryReposiyory categoryDal) : Controller
 {
-    private readonly ICategoryDal _categoryDal = categoryDal;
+    private readonly EfCategoryReposiyory _categoryDal = categoryDal;
 
     [HttpGet("Index/{page?}")]
     public IActionResult Index(int page = 1)

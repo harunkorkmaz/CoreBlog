@@ -1,13 +1,14 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers;
 
 [AllowAnonymous]
-public class AboutController(IAboutDal aboutDal) : Controller
+public class AboutController(EfAboutRepository aboutDal) : Controller
 {
-    IAboutDal _aboutDal = aboutDal;
+    private readonly EfAboutRepository _aboutDal = aboutDal;
 
     public IActionResult Index()
     {

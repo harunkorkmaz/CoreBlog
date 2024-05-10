@@ -9,14 +9,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebUI.Controllers;
 
 [AllowAnonymous]
-public class CommentController(ICommentDal commentDal) : Controller
+public class CommentController(EfCommentRepository commentDal) : Controller
 {
-    private readonly ICommentDal _commentDal = commentDal;
+    private readonly EfCommentRepository _commentDal = commentDal;
 
     public IActionResult Index()
     {
         return View();
     }
+
     [HttpGet]
     public PartialViewResult PartialAddComment()
     {

@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers;
 
-public class NotificationController(INotificationDal notificationdal) : Controller
+public class NotificationController(EfNotificationRepository notificationdal) : Controller
 {
-    private readonly INotificationDal _notificationdal = notificationdal;
+    private readonly EfNotificationRepository _notificationdal = notificationdal;
 
     public IActionResult Index()
     {

@@ -1,17 +1,18 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.ViewComponents.Category
+namespace WebUI.ViewComponents.Category;
+
+[AllowAnonymous]
+public class CategoryList(EfCategoryReposiyory categoryDal) : ViewComponent
 {
-    [AllowAnonymous]
-    public class CategoryList : ViewComponent
+    private readonly EfCategoryReposiyory _categoryDal = categoryDal;
+
+    public IViewComponentResult Invoke()
     {
-        CategoryManager _categoryManager = new(new EfCategoryReposiyory());
-        public IViewComponentResult Invoke()
-        {
-            var item = _categoryManager.GetListWithBlogs();
-            return View(item);
-        }
+        var item = _categoryDal.GetListWithBlogs();
+        return View(item);
     }
 }

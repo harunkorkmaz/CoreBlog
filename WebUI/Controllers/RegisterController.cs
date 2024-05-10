@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebUI.Controllers;
 
 [AllowAnonymous]
-public class RegisterController(UserManager<AppUser> userManger, IMapper mapper, IWriterDal writerdal) : Controller
+public class RegisterController(UserManager<AppUser> userManger, IMapper mapper, EfWriterRepository writerdal) : Controller
 {
     private readonly UserManager<AppUser> _userManger = userManger;
     private readonly IMapper _mapper = mapper;
-    private readonly IWriterDal _writerdal = writerdal;
+    private readonly EfWriterRepository _writerdal = writerdal;
 
     [HttpGet]
     public IActionResult Index()

@@ -1,11 +1,12 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.ViewComponents;
 
-public class CommentListByBlog(ICommentDal commentDal) : ViewComponent
+public class CommentListByBlog(EfCommentRepository commentDal) : ViewComponent
 {
-    ICommentDal _commentDal = commentDal;
+    private readonly EfCommentRepository _commentDal = commentDal;
 
     [HttpGet]
     public IViewComponentResult Invoke(int BlogId)

@@ -1,12 +1,13 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers;
 
-public class NewsLetterController(INewsLetterDal newsLetter) : Controller
+public class NewsLetterController(EfNewsLetterRepository newsLetter) : Controller
 {
-    INewsLetterDal _newsLetter = newsLetter;
+    private readonly EfNewsLetterRepository _newsLetter = newsLetter;
 
     [HttpGet]
     public PartialViewResult SubscribeMail()

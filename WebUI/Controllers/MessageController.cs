@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers;
 
-public class MessageController(IMessage2Dal message2dal) : Controller
+public class MessageController(EfMessage2Repository message2dal) : Controller
 {
-    private readonly IMessage2Dal _message2dal = message2dal;
+    private readonly EfMessage2Repository _message2dal = message2dal;
 
     [HttpGet]
     public async Task<IActionResult> Inbox()

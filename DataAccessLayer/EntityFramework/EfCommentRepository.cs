@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.EntityFramework
 {
-    public class EfCommentRepository : GenericRepository<Comment>, ICommentDal
+    public class EfCommentRepository : GenericRepository<Comment>
     {
         public List<Comment> GetAll(int blogId)
         {

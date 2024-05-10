@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebUI.Controllers;
 
 [AllowAnonymous]
-public class ContactController(IContactDal contactDal) : Controller
+public class ContactController(EfContactRepository contactDal) : Controller
 {
-    private readonly IContactDal _contactDal = contactDal;
+    private readonly EfContactRepository _contactDal = contactDal;
 
     [HttpGet]
     public IActionResult Index()

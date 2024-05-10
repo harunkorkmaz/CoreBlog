@@ -6,54 +6,48 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-namespace DataAccessLayer.EntityFramework
+namespace DataAccessLayer.EntityFramework;
+
+public class EfBlogRepository : GenericRepository<Blog>
 {
-    public class EfBlogRepository : GenericRepository<Blog>, IBlogDal
+    public List<Blog> GetAll()
     {
-        public List<Blog> GetAll()
+        using var item = new Context();
+        var list = item.Blogs
+            .Include(x => x.Category)
+            .Where(x => !x.isDeleted)
+            .ToList();
+
+        return list;
+    }
+
+    public List<Blog> GetAll(int WriterId)
+    {
+        using var item = new Context();
+        var list = item.Blogs
+            .Include(x => x.Category)
+            .Where(x => x.WriterId == WriterId && !x.isDeleted)
+            .ToList();
+
+        return list;
+    }
+
+    public List<Blog> GetAll(Expression<Func<Blog, bool>> filter)
+    {
+        using var c = new Context();
+        return c.Set<Blog>()
+            .Where(filter)
+            .ToList();
+    }
+
+    public void Delete(int id)
+    {
+        using var c = new Context();
+        var item = c.Blogs.Where(x => x.Id == id && !x.isDeleted).FirstOrDefault();
+        if (item != null)
         {
-            using (var item = new Context())
-            {
-                var list = item.Blogs
-                    .Include(x => x.Category)
-                    .Where(x => !x.isDeleted)
-                    .ToList();
-
-                return list;
-            }
-        }
-
-        public List<Blog> GetAll(int WriterId)
-        {
-            using (var item = new Context())
-            {
-                var list = item.Blogs
-                    .Include(x => x.Category)
-                    .Where(x => x.WriterId == WriterId && !x.isDeleted)
-                    .ToList();
-
-                return list;
-            }
-        }
-
-        public List<Blog> GetAll(Expression<Func<Blog, bool>> filter)
-        {
-            using (var c = new Context())
-            {
-                return c.Set<Blog>()
-                    .Where(filter)
-                    .ToList();
-            }
-        }
-
-        public void Delete(int id)
-        {
-            using (var c = new Context())
-            {
-                var item = c.Blogs.Where(x => x.Id == id && !x.isDeleted).FirstOrDefault();
-                item.isDeleted = true;
-                c.SaveChanges();
-            }
+            item.isDeleted = true;
+            c.SaveChanges();
         }
     }
 }

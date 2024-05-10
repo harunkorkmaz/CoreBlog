@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.EntityFramework
 {
-    public class EfCategoryReposiyory : GenericRepository<Category>, ICategoryDal
+    public class EfCategoryReposiyory : GenericRepository<Category>
     {
         public List<Category> GetListAll()
         {

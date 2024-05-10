@@ -1,11 +1,9 @@
-﻿using DataAccessLayer.Abstract;
-using DataAccessLayer.Repositores;
+﻿using DataAccessLayer.Repositores;
 using EntityLayer.Concrete;
 
-namespace DataAccessLayer.EntityFramework
+namespace DataAccessLayer.EntityFramework;
+
+public class EfAboutRepository : GenericRepository<About>
 {
-    public class EfAboutRepository : GenericRepository<About>, IAboutDal
-    {
-        
-    }
+
 }
