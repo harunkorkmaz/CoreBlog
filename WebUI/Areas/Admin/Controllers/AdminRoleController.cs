@@ -10,16 +10,10 @@ namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
 
-    public class AdminRoleController : Controller
+    public class AdminRoleController(RoleManager<AppRole> roleManager, UserManager<AppUser> userManager) : Controller
     {
-        private readonly RoleManager<AppRole> _roleManager;
-        private readonly UserManager<AppUser> _userManager;
-
-        public AdminRoleController(RoleManager<AppRole> roleManager, UserManager<AppUser> userManager)
-        {
-            _roleManager = roleManager;
-            _userManager = userManager;
-        }
+        private readonly RoleManager<AppRole> _roleManager = roleManager;
+        private readonly UserManager<AppUser> _userManager = userManager;
 
         [HttpGet]
         public IActionResult Index()
