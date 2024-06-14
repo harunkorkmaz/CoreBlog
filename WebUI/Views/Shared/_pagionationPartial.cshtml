@@ -1,0 +1,25 @@
+@model PaginationPartialDto
+
+<div class="row mt-10 p-1">
+    <div class="col-sm-12 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start ">
+        <div class="mt-1 mb-1">
+            Toplam @Model.TotalCount kayıt bulundu.
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-9 d-flex align-items-center justify-content-center justify-content-md-end ">
+        <div class="mt-1 mb-1">
+            <nav aria-label="Page navigation">
+                <ul class="pagination" id="@Model.Id" pagination-type="@Model.Id"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    $(function () {
+        PaginationIn(@Model.Id, @Model.TotalPages, @Model.PageNumber, @Model.ReloadEvents);
+    });
+
+</script>

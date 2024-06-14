@@ -21,14 +21,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model as List<Blog>)
                 {
                     <tr>
+    using DocumentFormat.OpenXml.Drawing.Diagrams;
                         <td> @item.Id </td>
-                        <td> @item.BlogTitle </td>
+                        <td> @item.Title </td>
                         <td> @item.CreatedDate </td>
-                        <td> @item.Category.CategoryName </td>
-                        <td> @(String.IsNullOrEmpty(@item.BlogContent) ? "No Content" : @item.BlogContent.Substring(0, 30))... </td>
+                        <td>
+                            @foreach (var tag in item.Tags?.ToList() as List<Tag>) {
+                                @tag
+                            }
+                        </td>
+                        <td> @(String.IsNullOrEmpty(@item.Content) ? "No Content" : @item.Content.Substring(0, 30))... </td>
                         <td>
                             <a class="btn btn-warning btn-sm" href="/blog/blogadd/@item.Id">Update</a>
                             <a class="btn btn-danger btn-sm" href="/blog/blogdelete/@item.Id">Delete</a>

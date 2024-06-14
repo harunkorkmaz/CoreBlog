@@ -12,8 +12,8 @@ namespace DataAccessLayer.Mapping
     {
         public MapProfile()
         {
-            CreateMap<RegisterDto, Writer>();
-            CreateMap<Writer, RegisterDto>();
+            // CreateMap<RegisterDto, Writer>();
+            // CreateMap<Writer, RegisterDto>();
         }
     }
 }

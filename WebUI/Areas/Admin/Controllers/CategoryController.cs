@@ -1,5 +1,4 @@
-﻿using BusinessLayer.ValidationRules;
-using DataAccessLayer.Abstract;
+﻿using DataAccessLayer.Abstract;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
@@ -28,24 +27,22 @@ public class CategoryController(EfCategoryReposiyory categoryDal) : Controller
     }
 
     [HttpPost("Add/")]
-    public IActionResult Add(Category model)
+    public IActionResult Add(Tag model)
     {
-        CategoryValidator cv = new CategoryValidator();
-        model.CategoryStatus = true;
-        var results = cv.Validate(model);
-        if (results.IsValid)
-        {
-            _categoryDal.Insert(model);
-            return RedirectToAction("Index");
-        }
-        else
-        {
-            foreach (var item in results.Errors)
-            {
-                ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-            }
-            return View();
-        }
+        // model.CategoryStatus = true;
+        //if (results.IsValid)
+        //{
+        _categoryDal.Insert(model);
+        return RedirectToAction("Index");
+        //}
+        //else
+        //{
+        //    foreach (var item in results.Errors)
+        //    {
+        //        ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+        //    }
+        //    return View();
+        //}
     }
 
     [HttpPost("Delete/{id}")]

@@ -1,5 +1,5 @@
 ﻿@using EntityLayer.Concrete
-@model Writer
+@model AppUser
 
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
@@ -9,8 +9,7 @@
                 <div class="d-flex mt-5 align-items-top">
                     @*<img src="@Model?.WriterImage" class="img-sm rounded-circle mr-3" alt="image">*@
                     <div class="mb-0 flex-grow">
-                        <h5 class="mr-2 mb-2">@Model?.WriterName - @Model?.WriterMail</h5>
-                        <p class="mb-0 font-weight-light">@Model?.WriterAbout</p>
+                        <h5 class="mr-2 mb-2">@Model?.FullName - @Model?.Email</h5>
                     </div>
                     @*<div class="ml-auto">
                         <i class="mdi mdi-heart-outline text-muted"></i>

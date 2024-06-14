@@ -5,13 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EntityLayer.Concrete
+namespace EntityLayer.Concrete;
+
+public class NewsLetter : BaseEntity
 {
-    public class NewsLetter
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Mail { get; set; }
-        public bool MailStatus { get; set; }
-    }
+    public string Mail { get; set; }
+    public bool MailStatus { get; set; }
 }

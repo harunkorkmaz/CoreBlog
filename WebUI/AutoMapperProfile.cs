@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
 using EntityLayer.Dto;
 using EntityLayer.Concrete;
+using DocumentFormat.OpenXml.Bibliography;
 
-namespace WebUI
+namespace WebUI;
+
+public class AutoMapperProfile : Profile
 {
-    public class AutoMapperProfile : Profile
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<RegisterDto, Writer>()
-                .ForMember(p => p.WriterAbout, opt => opt.MapFrom(src => ""));
-            CreateMap<Writer, RegisterDto>();
-            CreateMap<Comment, CommentDto>();
-        }
+        CreateMap<RegisterDto, Writer>();
+        CreateMap<Writer, RegisterDto>();
+        CreateMap<Comment, CommentDto>();
     }
 }

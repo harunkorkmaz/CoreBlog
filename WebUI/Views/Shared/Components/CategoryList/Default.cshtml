@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EntityLayer.Concrete.Category>
+﻿@model IEnumerable<EntityLayer.Concrete.Tag>
 
 <div class="tech-btm">
     <h4>Categories</h4>
@@ -6,7 +6,7 @@
         @foreach (var item in Model)
         {
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                @item.CategoryName
+                @item.Name
                 <span class="badge badge-primary badge-pill"> @item.Blogs.Count() </span>
             </li>
         }

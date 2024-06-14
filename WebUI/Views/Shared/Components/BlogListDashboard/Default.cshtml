@@ -11,7 +11,7 @@
                         <thead>
                             <tr>
                                 <th> Title </th>
-                                <th> Category </th>
+                                <th> Tags </th>
                                 <th> Date </th>
                                 <th>  Details </th>
                             </tr>
@@ -21,13 +21,16 @@
                             {
                                 <tr>
                                     <td>
-                                        <img src="@item.BlogImage" class="mr-2" alt="image"> @item.BlogTitle
+                                        <img src="@item.BlogImage" class="mr-2" alt="image"> @item.Title
                                     </td>
                                     <td>
-                                        <label class="badge badge-gradient-success">@item.Category.CategoryName</label>
+                                        @foreach (var tag in item.Tags)
+                                        {
+                                            <label class="badge badge-gradient-success">@tag.Name</label>
+                                        }
                                     </td>
                                     <td> @item.CreatedDate </td>
-                                    <td> <a href="/blog/details/@item.Id">@item.BlogContent?.Substring(0,45)...</a></td>
+                                    <td> <a href="/blog/details/@item.Id">@item.Content?.Substring(0,45)...</a></td>
                                 </tr>
                             }
                         </tbody>

@@ -9,17 +9,17 @@ namespace WebUI.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Route("Admin/[controller]/[action]")]
-public class MessageController(EfMessage2Repository message2dal, UserManager<AppUser> userManager) : Controller
+public class MessageController(EfMessageRepository message2dal, UserManager<AppUser> userManager) : Controller
 {
     private readonly UserManager<AppUser> _userManager = userManager;
-    private readonly EfMessage2Repository _message2dal = message2dal;
-
+    private readonly EfMessageRepository _message2dal = message2dal;
+    //BlogContext context;
     [HttpGet]
     public async Task<IActionResult> Inbox()
     {
         var username = User.Identity.Name;
-        var context = new Context();
-        var id = context.Writers.Where(x => x.WriterName == username).Select(x => x.Id).FirstOrDefault();
+        var context = new BlogContext();
+        var id = context.Users.Where(x => x.FullName == username).Select(x => x.Id).FirstOrDefault();
         return View(_message2dal.GetInboxMessageByWriter(id));
     }
 
@@ -27,8 +27,8 @@ public class MessageController(EfMessage2Repository message2dal, UserManager<App
     public async Task<IActionResult> sendbox()
     {
         var username = User.Identity.Name;
-        var context = new Context();
-        var id = context.Writers.Where(x => x.WriterName == username).Select(x => x.Id).FirstOrDefault();
+        var context = new BlogContext();
+        var id = context.Users.Where(x => x.FullName == username).Select(x => x.Id).FirstOrDefault();
         var list = _message2dal.GetInboxMessageByWriter(id);
         return View(list);
     }
@@ -40,13 +40,13 @@ public class MessageController(EfMessage2Repository message2dal, UserManager<App
     }
 
     [HttpPost]
-    public async Task<IActionResult> composeMail(Message2 message, string toWho)
+    public async Task<IActionResult> composeMail(Message message, string toWho)
     {
         if (toWho == "" || toWho == null) { return BadRequest(); }
         var reciever = await _userManager.FindByNameAsync(toWho);
-        var context = new Context();
-        var recieverId = await context.Writers.Where(x => x.WriterName == reciever.UserName).Select(x => x.Id).FirstOrDefaultAsync();
-        var senderId = await context.Writers.Where(x => x.WriterName == User.Identity.Name).Select(x => x.Id).FirstOrDefaultAsync();
+        var context = new BlogContext();
+        var recieverId = await context.Users.Where(x => x.FullName == reciever.UserName).Select(x => x.Id).FirstOrDefaultAsync();
+        var senderId = await context.Users.Where(x => x.FullName == User.Identity.Name).Select(x => x.Id).FirstOrDefaultAsync();
         if (recieverId == null) { return BadRequest(); }
         message.RecieverId = recieverId;
         message.SenderId = senderId;

@@ -11,7 +11,7 @@
     Layout = "~/Views/Shared/WriterLayout.cshtml";
 }
 
-@model List<EntityLayer.Concrete.Message2>
+@model List<EntityLayer.Concrete.Message>
 
 <div class="container">
     <div class="row h1">Inbox</div>
@@ -32,7 +32,7 @@
                     <tr>
                         <td> @item.Id </td>
                         <td> @item.Subject </td>
-                        <td> @item.ReceiverUser.WriterName </td>
+                        <td> @item.User.FullName </td>
                         <td> @item.Date </td>
                         <td> <a class="btn btn-outline-primary" href="/Message/Details/@item.Id">Open Message</a> </td>
                     </tr>

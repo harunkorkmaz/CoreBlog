@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-@model List<EntityLayer.Concrete.Message2>
+@model List<EntityLayer.Concrete.Message>
 
 
 <div class="wrapper wrapper-content">
@@ -87,7 +87,7 @@
                                 <td class="check-mail">
                                     <input type="checkbox" class="i-checks">
                                 </td>
-                                <td class="mail-ontact"><a href="#">@item.SenderUser.WriterName</a> <span class="label label-warning float-right">Clients</span> </td>
+                                <td class="mail-ontact"><a href="#">@item.User.FullName</a> <span class="label label-warning float-right">Clients</span> </td>
                                 <td class="mail-subject">@item.Subject
                                 </td>
                                 <td class="">

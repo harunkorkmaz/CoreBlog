@@ -5,15 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EntityLayer.Concrete
+namespace EntityLayer.Concrete;
+
+public class Tag : BaseEntity
 {
-    public class Category
-    {
-        [Key]
-        public int Id { get; set; }
-        public string CategoryName { get; set; }
-        public string CatergoryDescription { get; set; }
-        public bool CategoryStatus { get; set; }
-        public List<Blog> Blogs { get; set; }
-    }
+    public string? Name { get; set; }
+    public string? CatergoryDescription { get; set; }
+    public ICollection<Blog>? Blogs { get; set; }
 }

@@ -12,21 +12,20 @@ public class EfBlogRepository : GenericRepository<Blog>
 {
     public List<Blog> GetAll()
     {
-        using var item = new Context();
+        using var item = new BlogContext();
         var list = item.Blogs
-            .Include(x => x.Category)
-            .Where(x => !x.isDeleted)
+            .Include(x => x.Tags)
+            .Where(x => !x.IsDeleted)
             .ToList();
-
         return list;
     }
 
     public List<Blog> GetAll(int WriterId)
     {
-        using var item = new Context();
+        using var item = new BlogContext();
         var list = item.Blogs
-            .Include(x => x.Category)
-            .Where(x => x.WriterId == WriterId && !x.isDeleted)
+            .Include(x => x.Tags)
+            .Where(x => x.UserId == WriterId && !x.IsDeleted)
             .ToList();
 
         return list;
@@ -34,7 +33,7 @@ public class EfBlogRepository : GenericRepository<Blog>
 
     public List<Blog> GetAll(Expression<Func<Blog, bool>> filter)
     {
-        using var c = new Context();
+        using var c = new BlogContext();
         return c.Set<Blog>()
             .Where(filter)
             .ToList();
@@ -42,11 +41,11 @@ public class EfBlogRepository : GenericRepository<Blog>
 
     public void Delete(int id)
     {
-        using var c = new Context();
-        var item = c.Blogs.Where(x => x.Id == id && !x.isDeleted).FirstOrDefault();
+        using var c = new BlogContext();
+        var item = c.Blogs.Where(x => x.Id == id && !x.IsDeleted).FirstOrDefault();
         if (item != null)
         {
-            item.isDeleted = true;
+            item.IsDeleted = true;
             c.SaveChanges();
         }
     }

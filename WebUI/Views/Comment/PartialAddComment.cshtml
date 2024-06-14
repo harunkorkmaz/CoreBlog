@@ -3,11 +3,10 @@
 
 @inject IUserDal tokenService;
 @{
-    Writer LoginUser = tokenService.GetLoggedUser();
-    if (LoginUser == null)
-    {
-        LoginUser = new Writer();
-    }
+    var data = tokenService.GetLoggedUser();
+    AppUser LoginUser;
+    if (data != null) LoginUser = data.Data;
+    else { LoginUser = new AppUser(); }
 }
 
 <div class="comment-top">
@@ -17,12 +16,12 @@
 
             @if (LoginUser.Id != 0)
             {
-                <input class="form-control mb-3" readonly name="CommentUserName" value="@LoginUser.WriterName" required>
+                <input class="form-control mb-3" readonly name="Commenter" value="@LoginUser.FullName" required>
                 <input readonly name="WriterId" hidden value="@LoginUser.Id">
             }
             else
             {
-                <input class="form-control  mb-3" name="CommentUserName" placeholder="Name" required>
+                <input class="form-control  mb-3" name="Commenter" placeholder="Name" required>
             }
 
             <input hidden name="BlogId" value="@Model.Id">
@@ -32,3 +31,37 @@
         </form>
     </div>
 </div>
+
+<script>
+    $("form").submit(function (e) {
+        e.preventDefault();
+        var form = $(this);
+        var url = form.attr('/comment/PartialAddComment/');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(),
+            success: function (data) {
+                if (data.isSuccess) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'An error occurred while sending the comment',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            }
+        });
+    });
+</script>

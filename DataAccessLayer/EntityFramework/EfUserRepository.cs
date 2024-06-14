@@ -9,36 +9,30 @@ using System.Net.Http;
 
 namespace DataAccessLayer.EntityFramework
 {
-    public class EfUserRepository : GenericRepository<AppUser>, IUserDal
+    public class EfUserRepository(IHttpContextAccessor httpContext, UserManager<AppUser> userManager) : GenericRepository<AppUser>, IUserDal
     {
-        private readonly IHttpContextAccessor _httpContext;
-        private readonly UserManager<AppUser> _userManager;
-
-        public EfUserRepository(IHttpContextAccessor httpContext, UserManager<AppUser> userManager)
-        {
-            _httpContext = httpContext;
-            _userManager = userManager;
-        }
+        private readonly IHttpContextAccessor _httpContext = httpContext;
+        private readonly UserManager<AppUser> _userManager = userManager;
 
         public int GetCurrentUserId(string userName)
         {
-            var _context = new Context();
-            var id =  _context.Writers.Where(x => x.WriterName == userName).Select(x => x.Id).FirstOrDefault();
-            return id == null ? 0 : (int)id;
+            var user = _userManager.Users.Where(x => x.UserName == userName).FirstOrDefault();
+            return user.Id;
         }
 
-        public Writer GetLoggedUser()
+        public ApiResult<AppUser> GetLoggedUser()
         {
-            var _context = new Context();
+            var _context = new BlogContext();
 
             var user = _httpContext.HttpContext.User;
             var id = user.Claims.FirstOrDefault();
             if (id == null)
-                return null;
-            // id is aspnets user id so find this guys name
+                return new ApiResult<AppUser> { Message = "Kullanıcı bulunamadı", };
+            
             var loggedInUser = _userManager.Users.Where(x => x.Id.ToString() == id.Value).FirstOrDefault();
-            var item = _context.Writers.Where(x => x.WriterName == loggedInUser.UserName).FirstOrDefault();
-            return item;
+            if (loggedInUser == null)
+                return new ApiResult<AppUser> { Message = "Kullanıcı bulunamadı", };
+            return new ApiResult<AppUser> { Data = loggedInUser, Message = "Kullanıcı bulundu", };
         }
     }
 }

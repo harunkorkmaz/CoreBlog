@@ -5,12 +5,12 @@ namespace WebUI.Areas.Admin.ViewComponents
 {
     public class Statistic2 : ViewComponent
     {
-        Context c = new Context();
+        BlogContext c = new BlogContext();
         public IViewComponentResult Invoke()
         {
             ViewBag.v1 = c.Blogs.OrderByDescending(x => x.Id)?
                                 .Take(1)
-                                .Select(y => y.BlogTitle)
+                                .Select(y => y.Title)
                                 .FirstOrDefault();
             return View();
         }

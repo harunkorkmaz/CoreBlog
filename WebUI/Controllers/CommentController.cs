@@ -25,28 +25,13 @@ public class CommentController(EfCommentRepository commentDal) : Controller
     }
 
     [HttpPost]
-    public IActionResult PartialAddComment(Comment model)
+    public ApiResult PartialAddComment(Comment model)
     {
-        model.CommentStatus = true;
-        if (model.Score == 0)
-            model.Score = 5;
         _commentDal.Insert(model);
 
-        // sql trigger sildigim icin burda kendim ekleme yapiyorum
-        using (var context = new Context())
+        return new ApiResult
         {
-            BlogRating RatingRow = context.BlogRatings.FirstOrDefault(x => x.BLogId == model.BlogId);
-            if (RatingRow == null)
-            {
-                RatingRow = new BlogRating();
-                RatingRow.BLogId = model.BlogId;
-                RatingRow.RatingCount = 1;
-                RatingRow.TotalScore = model.Score;
-                context.BlogRatings.Add(RatingRow);
-                context.SaveChanges();
-            }
-        }
-
-        return RedirectToAction("Details", "Blog", new { id = model.BlogId });
+            Message = "Yorumunuz başarıyla eklendi.",
+        };
     }
 }

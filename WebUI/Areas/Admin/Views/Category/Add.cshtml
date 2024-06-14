@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-@model EntityLayer.Concrete.Category
+@model EntityLayer.Concrete.Tag
 
 <section class="vh-100 bg-image">
     <div class="mask d-flex align-items-center gradient-custom-3">
@@ -17,8 +17,8 @@
                             {
                                 <div class="form-outline mb-4">
                                     <label class="mb-2"> Category Name </label>
-                                    @Html.TextBoxFor(x => x.CategoryName, new { @class="form-control"})
-                                    @Html.ValidationMessageFor(x => x.CategoryName, "", new { @class=""})
+                                    @Html.TextBoxFor(x => x.Name, new { @class="form-control"})
+                                    @Html.ValidationMessageFor(x => x.Name, "", new { @class=""})
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label class="mb-2"> Category Description </label>

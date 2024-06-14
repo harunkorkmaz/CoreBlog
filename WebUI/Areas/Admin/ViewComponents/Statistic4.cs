@@ -5,7 +5,7 @@ namespace WebUI.Areas.Admin.ViewComponents;
 
 public class Statistic4 : ViewComponent
 {
-    Context c = new Context();
+    BlogContext c = new BlogContext();
     public IViewComponentResult Invoke()
     {
         ViewBag.v1 = c.Admins.Where(x => x.Id == 2).FirstOrDefault();

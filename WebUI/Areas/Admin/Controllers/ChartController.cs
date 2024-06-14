@@ -18,19 +18,19 @@ namespace WebUI.Areas.Admin.Controllers
 
             mlist.Add(new CategoryClass
             {
-                categoryname = "Tech",
+                Name = "Tech",
                 categorycount = 4
             }
             );
             mlist.Add(new CategoryClass
             {
-                categoryname = "Software",
+                Name = "Software",
                 categorycount = 1
             }
             );
             mlist.Add(new CategoryClass
             {
-                categoryname = "Linux",
+                Name = "Linux",
                 categorycount = 2
             }
             );

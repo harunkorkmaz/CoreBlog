@@ -1,18 +1,18 @@
 ﻿@using EntityLayer.Concrete
-@model List<Category>
+@model List<Tag>
 
 <table class="table table-bordered table-striped" style="width:100%;">
     <thead>
         <tr>
-            <th>Category Name</th>
-            <th>Category Description</th>
+            <th>Tag Name</th>
+            <th>Tag Description</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.CategoryName</td>
+                <td>@item.Name</td>
                 <td>@item.CatergoryDescription</td>
             </tr>
         }

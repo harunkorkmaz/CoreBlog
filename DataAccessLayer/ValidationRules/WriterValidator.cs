@@ -1,7 +1,7 @@
 ﻿using EntityLayer.Dto;
 using FluentValidation;
 
-namespace BusinessLayer.ValidationRules;
+namespace DataAccessLayer.ValidationRules;
 
 public class WriterValidator : AbstractValidator<RegisterDto>
 {

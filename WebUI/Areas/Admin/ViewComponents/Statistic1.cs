@@ -9,7 +9,7 @@ namespace WebUI.Areas.Admin.ViewComponents;
 public class Statistic1(EfBlogRepository blogDal) : ViewComponent
 {
     private readonly EfBlogRepository _blogDal = blogDal;
-    private readonly Context context = new();
+    private readonly BlogContext context = new();
 
     public IViewComponentResult Invoke()
     {

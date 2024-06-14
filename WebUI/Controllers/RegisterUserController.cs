@@ -6,7 +6,6 @@ using WebUI.Models;
 
 namespace WebUI.Controllers;
 
-[AllowAnonymous]
 public class RegisterUserController(UserManager<AppUser> userManger) : Controller
 {
     private readonly UserManager<AppUser> _userManger = userManger;

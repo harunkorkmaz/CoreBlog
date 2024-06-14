@@ -4,7 +4,9 @@ using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,14 +26,13 @@ builder.Services.AddMvc(config =>
 });
 
 builder.Services.AddMvc();
+
 builder.Services.AddScoped<EfBlogRepository>();
 builder.Services.AddScoped<EfCommentRepository>();
 builder.Services.AddScoped<EfContactRepository>();
-builder.Services.AddScoped<EfWriterRepository>();
-builder.Services.AddScoped<EfNotificationRepository>();
 builder.Services.AddScoped<EfCategoryReposiyory>();
-builder.Services.AddScoped<EfMessage2Repository>();
 builder.Services.AddScoped<EfAboutRepository>();
+builder.Services.AddScoped<EfMessageRepository>();
 
 builder.Services.AddScoped<IUserDal, EfUserRepository>();
 
@@ -48,14 +49,19 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Login/Index";
 });
 
-builder.Services.AddDbContext<Context>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.AddDbContext<BlogContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("local")));
+
+builder.Services.AddScoped<BlogContext>();
 
 builder.Services.AddIdentity<AppUser, AppRole>(x =>
 {
     x.Password.RequireUppercase = false;
     x.Password.RequireNonAlphanumeric = false;
-}).AddEntityFrameworkStores<Context>();
+}).AddEntityFrameworkStores<BlogContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -73,6 +79,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<BlogContext>();
+    await Seeder.SeedAsync(context, services.GetRequiredService<UserManager<AppUser>>());
+}
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -83,11 +95,11 @@ app.UseAuthentication();
 
 // ders 46
 app.UseSession();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-      name: "areas",
-      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-    );
-});
+// app.UseEndpoints(endpoints =>
+// {
+//     _ = endpoints.MapControllerRoute(
+//       name: "areas",
+//       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+//     );
+// });
 app.Run();

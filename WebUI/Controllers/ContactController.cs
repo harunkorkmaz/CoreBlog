@@ -10,7 +10,7 @@ namespace WebUI.Controllers;
 public class ContactController(EfContactRepository contactDal) : Controller
 {
     private readonly EfContactRepository _contactDal = contactDal;
-
+    
     [HttpGet]
     public IActionResult Index()
     {

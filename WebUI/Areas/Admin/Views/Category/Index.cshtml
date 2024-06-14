@@ -2,7 +2,7 @@
 @using EntityLayer.Concrete
 @using X.PagedList.Mvc.Core
 
-@model IPagedList<Category>
+@model IPagedList<Tag>
 
 @{
     ViewData["Title"] = "Index";
@@ -22,7 +22,7 @@
             {
                 <tr>
                     <td> @item.Id </td>
-                    <td> @item.CategoryName </td>
+                    <td> @item.Name </td>
                     <td>
                         <a href="#" class="btn btn-outline-primary"> activate </a>
                         <button id="deleteButton" onclick="myFunc(@item.Id)" class="btn btn-outline-danger"> Delete </button>

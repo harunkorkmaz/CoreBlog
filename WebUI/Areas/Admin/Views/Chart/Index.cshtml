@@ -27,11 +27,11 @@
                     var Data = data.jsonlist;
                     var data = new google.visualization.DataTable();
                     
-                    data.addColumn('string', 'categoryname');
+                    data.addColumn('string', 'Name');
                     data.addColumn('number', 'categorycount');
                     
                     for (var i = 0; i < Data.length; i++) {
-                        data.addRow([Data[i].categoryname, Data[i].categorycount]);
+                        data.addRow([Data[i].Name, Data[i].categorycount]);
                     }
                     
                     var chart = new google.visualization.PieChart(document.getElementById('chart'));

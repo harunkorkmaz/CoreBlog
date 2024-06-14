@@ -17,7 +17,7 @@
                         <th>#</th>
                         <th>Name</th>
                         @*<th></th>*@
-                        <th>Blog Title</th>
+                        @* <th>Blog Title</th> *@
                         <th>Title</th>
                         <th>Detail</th>
                         <th>Score</th>
@@ -31,11 +31,11 @@
                     {
                         <tr>
                             <td>@item.Id</td>
-                            <td>@item.CommentUserName</td>
+                            <td>@item.Commenter</td>
                             @*<td><span class="pie">0.52,1.041</span></td>*@
-                            <td>@item.Blog?.BlogTitle?</td>
-                            <td>@item.CommentTitle</td>
-                            <td>@item.CommentContent</td>
+                            @* <td>@item.</td> *@
+                            <td>@item.Title</td>
+                            <td>@item.Content</td>
                             <td>@item.Score</td>
                             <td class="text-navy">@item.CreatedDate.ToString("dd-MMM-yyyy")</td>
                             <td><a class="btn btn-outline-danger">Delete</a></td>

@@ -31,7 +31,18 @@
                                         </li>
                                         <li class="mx-2">
                                             <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">
-                                                <i class="far fa-eye"></i> @(item.Category == null ? "" : @item.Category.CategoryName)
+                                                <i class="far fa-eye"></i>
+                                                @if (item.Tags?.Count() > 0)
+                                                {
+                                                    @foreach (var tag in item.Tags)
+                                                    {
+                                                        <span>@tag.Name</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span></span>
+                                                }
                                             </a>
                                         </li>
                                         @* <li>
@@ -41,10 +52,10 @@
                                         </li> *@
                                     </ul>
                                     <h5 class="card-title" style="margin-top: 10px !important;">
-                                        <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">@item.BlogTitle</a>
+                                        <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">@item.Title</a>
                                     </h5>
                                     <p class="card-text mb-3">
-                                        @item.BlogContent.Substring(0, 130)...
+                                        @item.Content.Substring(0, 130)...
                                     </p>
                                     <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Blog" class="btn btn-primary read-m">Read More</a>
                                 </div>

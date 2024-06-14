@@ -1,0 +1,90 @@
+﻿@model EntityLayer.Concrete.Blog
+
+@{
+    ViewData["Title"] = "BlogAdd";
+    Layout = "~/Views/Shared/WriterLayout.cshtml";
+}
+
+<script src="~/tinymce/tinymce.min.js"></script>
+
+<section class="vh-100 bg-image">
+    <div class="mask d-flex align-items-center gradient-custom-3">
+        <div class="container ">
+            <div class="row d-flex justify-content-center align-items-center ">
+                <div class="col-12 col-md-9">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-3">
+                            <form action="/Blog/BlogAdd" method="post">
+                                <div class="form-outline mb-4 mx-2">
+                                    <label class="mb-2 form-label" for="BlogTitle">Title</label>
+                                    <input type="text" id="BlogTitle" name="BlogTitle" class="form-control">
+                                    <span class="text-danger"></span>
+                                </div>
+                                <div class="form-outline mb-4 mx-2">
+                                    <label class="mb-2 form-label" for="BlogImage">Image</label>
+                                    <input type="text" id="BlogImage" name="BlogImage" class="form-control">
+                                    <span class="text-danger"></span>
+                                </div>
+                                <div class="form-outline mb-4 mx-2">
+                                    <label class="mb-2 form-label" for="BlogThumbnailImage">Thumbnail Image</label>
+                                    <input type="text" id="BlogThumbnailImage" name="BlogThumbnailImage"
+                                        class="form-control">
+                                    <span class="text-danger"></span>
+                                </div>
+                                <div class="form-outline mb-4 mx-2">
+                                    <label class="mb-2 form-label" for="Category">Category</label>
+                                    <select id="Category" name="CategoryId" class="form-select"></select>
+                                </div>
+                                <div class="form-outline mb-4 mx-2">
+                                    <label for="Content">Content</label>
+                                    
+                                    <span class="text-danger"></span>
+                                    <textarea id="default" name="Content">Hello, World!</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="register-button">Add</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    tinymce.init({
+        selector: 'textarea#default'
+    });
+
+    $("form").submit(function (e) {
+        e.preventDefault();
+        var form = $(this);
+        // var url = form.attr();
+        $.ajax({
+            type: "POST",
+            url: '/Blog/Add',
+            data: form.serialize(),
+            success: function (data) {
+                if (data.isSuccess) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.message,
+                        showConfirmButton: false
+                    })
+                    setTimeout(function () {
+                        window.location.href = "/Blog/GetBLogByWriter";    
+                    }, 1500);
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'An error occurred while sending the comment',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            }
+        });
+    });
+</script>

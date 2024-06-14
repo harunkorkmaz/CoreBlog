@@ -4,11 +4,10 @@
 @inject IUserDal tokenService;
 
 @{
-    Writer LoginUser = tokenService.GetLoggedUser();
-    if (LoginUser == null)
-    {
-        LoginUser = new Writer() { Id = 0};
-    }
+    var data = tokenService.GetLoggedUser();
+    AppUser LoginUser;
+    if (data != null) LoginUser = data.Data;
+    else { LoginUser = new AppUser(); }
 }
 
 <!--Header-->

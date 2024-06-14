@@ -1,6 +1,6 @@
 ﻿
 @using EntityLayer.Concrete
-@model List<Category>
+@model List<Tag>
 
 <div class="row">
     <div class="col-md-7 grid-margin stretch-card">
@@ -13,7 +13,6 @@
                             <tr>
                                 <th> # </th>
                                 <th> Name </th>
-                                <th> Status </th>
                                 <th> Operations </th>
                             </tr>
                         </thead>
@@ -22,8 +21,7 @@
                             {
                                 <tr>
                                     <td> @item.Id </td>
-                                    <td> @item.CategoryName </td>
-                                    <td> @item.CategoryStatus </td>
+                                    <td> @item.Name </td>
                                     <td>
                                         <div class="progress">
                                             <div class="progress-bar bg-gradient-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>

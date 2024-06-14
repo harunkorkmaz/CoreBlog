@@ -11,10 +11,10 @@
         @foreach (var item in Model)
         {
             <div class="media" style="padding: 20px; display: flex; align-items: center;">
-                @if (item.Writer != null && item.Writer.WriterImage != null)
+                @if (item.User != null && item.User.ImageUrl != null)
                 {
                     <div style="width: 80px; height: 80px; display: flex; justify-content: center; align-items: center;">
-                        <img src="@item.Writer.WriterImage" alt="" class="img-fluid" style="width: 100%; height: auto;border-radius:50%;" />
+                        <img src="@item.User.ImageUrl" alt="" class="img-fluid" style="width: 100%; height: auto;border-radius:50%;" />
                     </div>
                 }
                 else
@@ -24,8 +24,8 @@
                     </div>
                 }
                 <div class="media-body">
-                    <h5 class="mt-0">@item.CommentUserName</h5>
-                    <p>@item.CommentContent</p>
+                    <h5 class="mt-0">@item.Commenter</h5>
+                    <p>@item.Content</p>
                 </div>
             </div>
         }

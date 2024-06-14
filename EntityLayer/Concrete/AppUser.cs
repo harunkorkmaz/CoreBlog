@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace EntityLayer.Concrete
+namespace EntityLayer.Concrete;
+
+public class AppUser : IdentityUser<int>
 {
-    public class AppUser : IdentityUser<int>
-    {
-        public string FullName { get; set; }
-        public string ImageUrl { get; set; }
-    }
+    public string FullName { get; set; } = null!;
+    public string ImageUrl { get; set; } = null!;
 }
+

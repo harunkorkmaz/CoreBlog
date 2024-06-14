@@ -9,7 +9,7 @@
 <!--/main-->
 <section class="main-content-w3layouts-agileits">
     <div class="container">
-        <h3 class="tittle">Blog Posts</h3>
+        @* <h3 class="tittle">Blogs</h3> *@
         <div class="inner-sec">
             <!--left-->
             <div class="left-blog-info-w3layouts-agileits text-left">
@@ -17,7 +17,7 @@
                     @foreach (var item in Model)
                     {
                         <div class="col-lg-4 card my-4">
-                            <a href="#">
+                            <a asp-action="Details" asp-route-id="@item.Id">
                                 <img src="@item.BlogImage" class="card-img-top img-fluid" alt="">
                             </a>
                             <div class="card-body">
@@ -29,7 +29,7 @@
                                     </li>
                                     <li class="mx-2">
                                         <a href="#">
-                                            <i class="far fa-comment"></i> @(item.Category == null ? "": @item.Category.CategoryName  )
+                                            <i class="far fa-comment"></i> @(item.Tags?.Count() == 0 ? "" : @item.Tags?.FirstOrDefault())
                                         </a>
                                     </li>
                                     @* <li>
@@ -39,13 +39,12 @@
                                     </li> *@
                                 </ul>
                                 <h5 class="card-title">
-                                    <a href="#">@item.BlogTitle</a>
+                                    <a href="#">@item.Title</a>
                                 </h5>
                                 <p class="card-text mb-3">
-                                    @item.BlogContent.Substring(0, 130)...
-                                    @*@(String.IsNullOrEmpty(@item.BlogContent) ? "No Content" : @item.BlogContent.Substring(0, 50))...*@
+                                    @item.Content?.Substring(0, 130)...
                                 </p>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary read-m">Read More</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="" style="color: blue; text-decoration: underline;">Read More</a>
                             </div>
                         </div>
                     }
@@ -55,3 +54,33 @@
         </div>
 </section>
 <!--//main-->
+
+<script>
+   $(".events").on("click", ".page-link", function (event) {
+
+        var page = $($(event)[0].target).attr("page-number");
+
+        Pagination(page);
+
+    });
+
+    function Pagination(page, name, urls) {
+
+        var ids = $(".nav-link.active").attr("href");
+
+        var obj = {
+            PageNumber: page,
+            PageSize: 9
+        }
+
+        // $.ajax({
+        //     type: "post",
+        //     url: urls,
+        //     data: { filter: obj, id: Model.Id },
+        //     success: function (data) {
+        //         $(ids).html(data);
+        //         RefreshOwlCarousel();
+        //     }
+        // });
+    }
+</script>

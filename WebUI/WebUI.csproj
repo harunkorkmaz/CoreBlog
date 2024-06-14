@@ -33,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewComponents\Notification\" />
+    <Folder Include="Views\Notification\" />
     <Folder Include="wwwroot\WriterImageFiles\" />
   </ItemGroup>
 </Project>

@@ -14,4 +14,3 @@ public class HomeController(EfBlogRepository blogrepo) : Controller
         return View(_blogrepo.GetAll());
     }
 }
-

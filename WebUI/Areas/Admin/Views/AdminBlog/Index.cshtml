@@ -21,11 +21,11 @@
                             <span class="product-price">
                                 @item.CreatedDate.ToString("dd-MMM-yyyy")
                             </span>
-                            <small class="text-muted">@item.Category.CategoryName</small>
-                            <a href="#" class="product-name"> @item.BlogTitle</a>
+                            @* <small class="text-muted">@item.Category.Name</small> *@
+                            <a href="#" class="product-name"> @item.Title</a>
 
                             <div class="small m-t-xs">
-                                @item?.BlogContent?.Substring(0, 75)...
+                                @item?.Content?.Substring(0, 75)...
                             </div>
                             <div class="m-t text-righ">
 

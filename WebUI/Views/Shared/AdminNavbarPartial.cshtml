@@ -3,11 +3,10 @@
 
 @inject IUserDal tokenService;
 @{
-    Writer LoginUser = tokenService.GetLoggedUser();
-    if (LoginUser == null)
-    {
-        LoginUser = new Writer();
-    }
+    var data = tokenService.GetLoggedUser();
+    AppUser LoginUser;
+    if (data != null) LoginUser = data.Data;
+    else { LoginUser = new AppUser(); }
 }
 
 
@@ -16,10 +15,10 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <img alt="image" class="rounded-circle img-fluid" src="@LoginUser.WriterImage" />
+                    <img alt="image" class="rounded-circle img-fluid" src="@LoginUser.ImageUrl" />
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="block m-t-xs font-bold">@LoginUser.WriterName </span>
-                        <span class="text-muted text-xs block"> @LoginUser.WriterMail <b class="caret"></b></span>
+                        <span class="block m-t-xs font-bold">@LoginUser.FullName </span>
+                        <span class="text-muted text-xs block"> @LoginUser.Email<b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
