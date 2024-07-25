@@ -1,13 +1,7 @@
-﻿using DataAccessLayer.ValidationRules;
-using DataAccessLayer.Abstract;
-using DataAccessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
-using EntityLayer.Concrete;
-using FluentValidation;
+﻿using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using WebUI.Models;
 
 namespace WebUI.Controllers;

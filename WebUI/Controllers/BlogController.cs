@@ -1,6 +1,4 @@
 ﻿using DataAccessLayer.ValidationRules;
-using DataAccessLayer.Abstract;
-using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authorization;
@@ -10,17 +8,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebUI.Controllers;
 
-public class BlogController(IUserDal userDal, EfBlogRepository blogrepo, EfCommentRepository commentDal, EfCategoryReposiyory categoryDal, UserManager<AppUser> userManager) : Controller
+public class BlogController(EfBlogRepository blogrepo, EfCommentRepository commentDal, EfCategoryReposiyory categoryDal, UserManager<AppUser> userManager) : Controller
 {
     private readonly EfBlogRepository _blogDal = blogrepo;
     private readonly EfCommentRepository _commentDal = commentDal;
     private readonly EfCategoryReposiyory _categoryDal = categoryDal;
-    private readonly IUserDal _userDal = userDal;
     private readonly UserManager<AppUser> _userManager = userManager;
 
     public IActionResult Detail(int id)
     {
-        ViewBag.CommentCount = _commentDal.GetAllwithUser(id).Count;
+        // ViewBag.CommentCount = _commentDal.GetAllwithUser(id).Count;
+        ViewBag.CommentCount = 12;
         return View(_blogDal.GetById(id));
     }
 
@@ -29,7 +27,7 @@ public class BlogController(IUserDal userDal, EfBlogRepository blogrepo, EfComme
         var userName = User.Identity?.Name;
         if (userName == null)
             return RedirectToAction("Index", "Home");
-        var userid = _userDal.GetCurrentUserId(userName);
+        var userid = _userManager.Users.Where(x => x.UserName == userName).Select(x => x.Id).FirstOrDefault();
         return View(_blogDal.GetAll(userid));
     }
 
@@ -44,7 +42,6 @@ public class BlogController(IUserDal userDal, EfBlogRepository blogrepo, EfComme
                                                    Value = x.Id.ToString()
                                                }).ToList();
         var userName = User.Identity?.Name;
-        BlogContext c = new();
         var userid = _userManager.Users.Where(x => x.UserName == userName).Select(x => x.Id).FirstOrDefault();
 
         ViewBag.id = userid;
@@ -66,14 +63,7 @@ public class BlogController(IUserDal userDal, EfBlogRepository blogrepo, EfComme
         var results = bv.Validate(p);
         if (results.IsValid)
         {
-            using (var context = new BlogContext())
-            {
-                var username = User.Identity?.Name;
-                var writer = _userManager.Users.Where(x => x.UserName == username).FirstOrDefault();
-
-                p.User = writer;
-                _blogDal.Insert(p);
-            }
+            _blogDal.Insert(p);
             return RedirectToAction("GetBlogByWriter", "Blog");
         }
         else

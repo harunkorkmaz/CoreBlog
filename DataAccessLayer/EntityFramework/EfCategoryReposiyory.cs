@@ -5,17 +5,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.EntityFramework;
 
-public class EfCategoryReposiyory : GenericRepository<Tag>
+public class EfCategoryReposiyory(BlogContext context)
 {
+    private readonly BlogContext _context = context;
+
     public List<Tag> GetListAll()
     {
-        using var item = new BlogContext();
-        return item.Tags.ToList();
+        return [.. _context.Tags];
     }
 
     public List<Tag> GetListWithBlogs()
     {
-        using var item = new BlogContext();
-        return item.Tags.Include(x => x.Blogs).ToList();
+        return [.. _context.Tags.Include(x => x.Blogs)];
+    }
+
+    public int Insert(Tag item)
+    {
+        _context.Tags.Add(item);
+        _context.SaveChanges();
+        return item.Id;
+    }
+
+    // getbyid
+    public Tag GetById(int id)
+    {
+        return _context.Tags.Find(id);
+    }
+
+    public void Delete(Tag item)
+    {
+        _context.Tags.Remove(item);
+        _context.SaveChanges();
     }
 }

@@ -6,7 +6,7 @@
 @{
     var data = tokenService.GetLoggedUser();
     AppUser LoginUser;
-    if (data != null) LoginUser = data.Data;
+    if (data != null && data.IsSuccess) LoginUser = data.Data;
     else { LoginUser = new AppUser(); }
 }
 
@@ -14,59 +14,16 @@
 <header>
     <div class="top-bar_sub_w3layouts container">
         <div class="row">
-            <div class="col-md-4 logo text-left">
+            @* <div class="col-md-4 logo text-left">
                 <a class="navbar-brand" href="/">
                     <i class="fab fa-linode"></i> Core Blog
                 </a>
-            </div>
-            <div class="col-md-4 top-forms text-center mt-lg-3 mt-md-1 mt-0">
-                @if (LoginUser.Id != 0)
-                {
-                    <div>Welcome</div>
-                }
-                else
-                {
-                    <span class="mx-lg-4 mx-md-2  mx-1">
-                        <a href="@Url.Action("Index", "Login")">
-                            <i class="fas fa-lock"></i> Sign In
-                        </a>
-                    </span>
-                    <span>
-                        <a href="@Url.Action("Index", "Register")">
-                            <i class="far fa-user"></i> Register
-                        </a>
-                    </span>
-                }
-            </div>
-
-            @* <div class="col-md-4 log-icons text-right d-none">
-
-                <ul class="social_list1 mt-3">
-
-                    <li>
-                        <a href="#" class="facebook1 mx-2">
-                            <i class="fab fa-facebook-f"></i>
-
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="twitter2">
-                            <i class="fab fa-twitter"></i>
-
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="dribble3 mx-2">
-                            <i class="fab fa-dribbble"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="pin">
-                            <i class="fab fa-pinterest-p"></i>
-                        </a>
-                    </li>
-                </ul>
             </div> *@
+            <div> 
+                @* put img *@
+                <img src="~/Karunland Blog.png" class="img-fluid"/>
+            </div>
+
         </div>
     </div>
 
@@ -82,19 +39,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/home">
                             Home
-                            <span class="sr-only">(current)</span>
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="/about/index">About</a>
                     </li>
 
-                    @* <li class="nav-item">
-                        <a class="nav-link" href="/blog/index">
-                            Blogs
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li> *@
                     <li class="nav-item">
                         <a class="nav-link" href="/contact/index">Contact</a>
                     </li>
@@ -113,6 +64,25 @@
                             <a class="nav-link" href="/login/logout">Sign Out</a>
                         </li>
                     }
+                    <div class="top-forms text-center mt-lg-3 mt-md-1 mt-0">
+                        @if (LoginUser.Id != 0)
+                        {
+                            @* <div>Welcome</div> *@
+                        }
+                        else
+                        {
+                            <span class="mx-lg-4 mx-md-2  mx-1">
+                                <a href="@Url.Action("Index", "Login")">
+                                    <i class="fas fa-lock"></i> Sign In
+                                </a>
+                            </span>
+                            <span>
+                                <a href="@Url.Action("Index", "Register")">
+                                    <i class="far fa-user"></i> Register
+                                </a>
+                            </span>
+                        }
+                    </div>
                 </ul>
             </div>
         </nav>

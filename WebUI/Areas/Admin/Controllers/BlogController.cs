@@ -9,7 +9,7 @@ namespace WebUI.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Route("/Admin/[Controller]/[action]")]
-public class BlogController : Controller
+public class BlogController(BlogContext blogContext) : Controller
 {
     public IActionResult ExportStaticExcelBlog()
     {
@@ -35,9 +35,8 @@ public class BlogController : Controller
 
     public List<BlogModel> GetBlogList()
     {
-        using var context = new BlogContext();
-        var temp = context.Blogs.Select(x => new BlogModel { Id = x.Id, Name = x.Title }).ToList();
-        return temp ?? new List<BlogModel>();
+        var temp = blogContext.Blogs.Select(x => new BlogModel { Id = x.Id, Name = x.Title }).ToList();
+        return temp ?? [];
     }
 
     public IActionResult BlogListExcel()

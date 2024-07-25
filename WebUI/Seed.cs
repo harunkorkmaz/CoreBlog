@@ -46,7 +46,6 @@ public static class Seeder
             await context.SaveChangesAsync();
         }
 
-        // create blog
         if (!context.Blogs.Any())
         {
             var blog = new Blog

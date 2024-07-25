@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Abstract;
+﻿
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +11,12 @@ namespace WebUI.Areas.Admin.Controllers;
 [Route("Admin/[controller]")]
 public class CategoryController(EfCategoryReposiyory categoryDal) : Controller
 {
-    private readonly EfCategoryReposiyory _categoryDal = categoryDal;
+    // private readonly EfCategoryReposiyory _categoryDal = categoryDal;
 
     [HttpGet("Index/{page?}")]
     public IActionResult Index(int page = 1)
     {
-        var items = _categoryDal.GetListAll().ToPagedList(page, 3);
+        var items = categoryDal.GetListAll().ToPagedList(page, 3);
         return View(items);
     }
 
@@ -32,7 +32,7 @@ public class CategoryController(EfCategoryReposiyory categoryDal) : Controller
         // model.CategoryStatus = true;
         //if (results.IsValid)
         //{
-        _categoryDal.Insert(model);
+        categoryDal.Insert(model);
         return RedirectToAction("Index");
         //}
         //else
@@ -48,7 +48,7 @@ public class CategoryController(EfCategoryReposiyory categoryDal) : Controller
     [HttpPost("Delete/{id}")]
     public IActionResult Delete(int id)
     {
-        _categoryDal.Delete(_categoryDal.GetById(id));
+        categoryDal.Delete(categoryDal.GetById(id));
         return RedirectToAction("Index");
     }
 }

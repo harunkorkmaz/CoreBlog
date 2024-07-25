@@ -1,14 +1,14 @@
 ﻿using DataAccessLayer.Concrete;
+using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Areas.Admin.ViewComponents
 {
-    public class Statistic2 : ViewComponent
+    public class Statistic2(BlogContext blogContext) : ViewComponent
     {
-        BlogContext c = new BlogContext();
         public IViewComponentResult Invoke()
         {
-            ViewBag.v1 = c.Blogs.OrderByDescending(x => x.Id)?
+            ViewBag.v1 = blogContext.Blogs.OrderByDescending(x => x.Id)?
                                 .Take(1)
                                 .Select(y => y.Title)
                                 .FirstOrDefault();

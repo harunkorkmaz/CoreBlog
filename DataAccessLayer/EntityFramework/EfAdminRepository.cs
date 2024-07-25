@@ -1,5 +1,4 @@
-﻿using DataAccessLayer.Abstract;
-using DataAccessLayer.Repositores;
+﻿using DataAccessLayer.Repositores;
 using EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.EntityFramework
 {
-    public class EfAdminRepository : GenericRepository<Admin>
+    public class EfAdminRepository
     {
     }
 }

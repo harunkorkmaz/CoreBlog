@@ -1,10 +1,14 @@
-﻿using DataAccessLayer.Abstract;
+﻿using DataAccessLayer.Concrete;
 using DataAccessLayer.Repositores;
 using EntityLayer.Concrete;
 
-namespace DataAccessLayer.EntityFramework
+namespace DataAccessLayer.EntityFramework;
+
+public class EfContactRepository(BlogContext context)
 {
-    public class EfContactRepository : GenericRepository<Contact>
+    public void Insert(Contact contact)
     {
+        context.Contacts.Add(contact);
+        context.SaveChanges();
     }
 }

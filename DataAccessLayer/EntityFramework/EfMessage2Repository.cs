@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.EntityFramework;
 
-public class EfMessageRepository(BlogContext blogContext) : GenericRepository<Message>
+public class EfMessageRepository(BlogContext blogContext)
 {
 
     public List<Message> GetInboxMessageByWriter(int id)
@@ -16,5 +16,17 @@ public class EfMessageRepository(BlogContext blogContext) : GenericRepository<Me
     public List<Message> GetSendboxMessageByWriter(int id)
     {
         return [.. blogContext.Messages.Where(x => x.SenderId == id)];
+    }
+
+    public Message GetById(int id)
+    {
+        return blogContext.Messages.Find(id);
+    }
+
+    public int Insert(Message item)
+    {
+        blogContext.Messages.Add(item);
+        blogContext.SaveChanges();
+        return item.Id;
     }
 }

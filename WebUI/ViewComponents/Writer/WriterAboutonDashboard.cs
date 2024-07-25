@@ -1,5 +1,4 @@
-﻿using DataAccessLayer.Abstract;
-using DataAccessLayer.Concrete;
+﻿using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 

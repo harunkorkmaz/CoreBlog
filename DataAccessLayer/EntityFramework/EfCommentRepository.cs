@@ -1,31 +1,45 @@
-﻿using DataAccessLayer.Abstract;
-using DataAccessLayer.Concrete;
+﻿using DataAccessLayer.Concrete;
 using DataAccessLayer.Repositores;
 using EntityLayer.Concrete;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DataAccessLayer.EntityFramework;
 
-public class EfCommentRepository : GenericRepository<Comment>
+public class EfCommentRepository 
 {
+    private readonly BlogContext _context;
+
+    public EfCommentRepository(BlogContext context)
+    {
+        _context = context;
+    }
+
     public List<Comment> GetAll(int blogId)
     {
-        var context = new BlogContext();
-        List<Comment> x = context.Comments.Where(x => x.BlogId == blogId).ToList();
-        return x;
+        return _context.Comments.Where(x => x.BlogId == blogId).ToList();
     }
 
     public List<Comment> GetAll()
     {
-        var context = new BlogContext();
-        List<Comment> x = context.Comments.Include(x => x.Blog).ToList();
-        return x;
+        return _context.Comments.Include(x => x.Blog).ToList();
     }
 
-    public List<Comment> GetAllwithUser(int blogId)
+    public List<Comment> GetAllWithUser(int blogId)
     {
-        var context = new BlogContext();
-        List<Comment> x = [.. context.Comments.Include(x => x.User).Where(x => x.BlogId == blogId)];
-        return x;
+        return _context.Comments.Include(x => x.User).Where(x => x.BlogId == blogId).ToList();
     }
+
+    public int Insert(Comment item)
+    {
+        _context.Comments.Add(item);
+        _context.SaveChanges();
+        return item.Id;
+    }
+
+    public List<Comment> GetListAll()
+    {
+        return [.. _context.Comments];
+    }
+
 }

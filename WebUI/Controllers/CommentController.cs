@@ -1,6 +1,4 @@
-﻿using DataAccessLayer.Abstract;
-using DataAccessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.EntityFramework;
 using DataAccessLayer.Repositores;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authorization;
