@@ -27,7 +27,7 @@ public class EfUserRepository(IHttpContextAccessor httpContext, UserManager<AppU
         
         var loggedInUser = userManager.Users.Where(x => x.Id.ToString() == id.Value).FirstOrDefault();
         if (loggedInUser == null)
-            return new ApiResult<AppUser> { Message = "Kullanıcı bulunamadı", };
+            return new ApiResult<AppUser> { Message = "Kullanıcı bulunamadı", IsSuccess = false };
         return new ApiResult<AppUser> { Data = loggedInUser, Message = "Kullanıcı bulundu", };
     }
 }

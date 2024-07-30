@@ -28,7 +28,7 @@
     </div>
 
     <div class="header_top" id="home">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <button class="navbar-toggler navbar-toggler-right mx-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -45,10 +45,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/about/index">About</a>
                     </li>
-
+                    @* 
                     <li class="nav-item">
                         <a class="nav-link" href="/contact/index">Contact</a>
-                    </li>
+                    </li> 
+                    *@
                 </ul>
 
                 <ul class="navbar-nav ml-auto">
@@ -64,25 +65,23 @@
                             <a class="nav-link" href="/login/logout">Sign Out</a>
                         </li>
                     }
-                    <div class="top-forms text-center mt-lg-3 mt-md-1 mt-0">
-                        @if (LoginUser.Id != 0)
-                        {
-                            @* <div>Welcome</div> *@
-                        }
-                        else
-                        {
-                            <span class="mx-lg-4 mx-md-2  mx-1">
-                                <a href="@Url.Action("Index", "Login")">
-                                    <i class="fas fa-lock"></i> Sign In
-                                </a>
-                            </span>
-                            <span>
-                                <a href="@Url.Action("Index", "Register")">
-                                    <i class="far fa-user"></i> Register
-                                </a>
-                            </span>
-                        }
-                    </div>
+                    @if (LoginUser.Id != 0)
+                    {
+                        @* <div>Welcome</div> *@
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Login")">
+                                <i class="fas fa-lock"></i> Sign In
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Register")">
+                                <i class="far fa-user"></i> Register
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </nav>

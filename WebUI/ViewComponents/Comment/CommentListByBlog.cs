@@ -10,8 +10,8 @@ public class CommentListByBlog(EfCommentRepository commentDal) : ViewComponent
     [HttpGet]
     public IViewComponentResult Invoke(int BlogId)
     {
-        // var item = commentDal.GetAllwithUser(BlogId);
-        return View(14);
+        var item = commentDal.GetAllWithUser(BlogId);
+        return View(item);
     }
 }
 

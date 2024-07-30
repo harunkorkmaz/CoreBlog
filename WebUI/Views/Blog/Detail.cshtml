@@ -20,18 +20,12 @@
                         </div>
                         <div class="blog-info-middle">
                             <ul>
-                                <li>
-                                    <i class="far fa-calendar-alt"></i> @Model.CreatedDate.ToString("dd-MMMM-yyyy")
+                                <li style="color: white;margin-right: 20px;">
+                                    <i class="far fa-calendar-alt"></i> @Model.CreatedDate.ToString("dd/MMMM/yyyy")
                                 </li>
-                                @* <li class="mx-2">
-                                    <a href="#">
-                                        <i class="far fa-thumbs-up"></i> - Likes
-                                    </a>
-                                </li> *@
+                                
                                 <li>
-                                    <a href="#">
-                                        <i class="far fa-comment"></i> @ViewBag.CommentCount Comments
-                                    </a>
+                                    <i class="far fa-comment"></i> @ViewBag.CommentCount Comments
                                 </li>
 
                             </ul>
@@ -54,7 +48,38 @@
 
             <!--//left-->
             <!--right-->
-            @await Html.PartialAsync("~/Views/Shared/BlogRightPanel.cshtml")
+            <aside class="col-lg-4 text-right">
+
+                <div class="right-blog-info text-left">
+
+                    @await Html.PartialAsync("~/Views/NewsLetter/SubscribeMail.cshtml")
+
+                    @await Component.InvokeAsync("CategoryList")
+
+                    @await Component.InvokeAsync("WriterLastBlogs", new { id = Model.UserId })
+
+                    @*
+                    <div class="single-gd tech-btm">
+                    <h4>Recent Post</h4>
+                    <div class="blog-grids">
+                    <div class="blog-grid-left">
+                    <a href="single.html">
+                    <img src="~/CoreBlogTema/images/b1.jpg" class="img-fluid" alt="">
+                    </a>
+                    </div>
+                    <div class="blog-grid-right">
+
+                    <h5>
+                    <a href="single.html">Pellentesque dui, non felis. Maecenas male</a>
+                    </h5>
+                    </div>
+                    <div class="clearfix"> </div>
+                    </div>
+                    </div>
+                    *@
+                </div>
+
+            </aside>
             <!--//right-->
         </div>
     </div>

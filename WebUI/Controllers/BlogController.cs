@@ -15,6 +15,7 @@ public class BlogController(EfBlogRepository blogrepo, EfCommentRepository comme
     private readonly EfCategoryReposiyory _categoryDal = categoryDal;
     private readonly UserManager<AppUser> _userManager = userManager;
 
+    [AllowAnonymous]
     public IActionResult Detail(int id)
     {
         // ViewBag.CommentCount = _commentDal.GetAllwithUser(id).Count;

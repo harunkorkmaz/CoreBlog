@@ -1,5 +1,5 @@
 ﻿@using EntityLayer.Concrete
-@model List<Blog>
+@model IEnumerable<Blog>
 
 <div class="tech-btm">
     <h4>Last 3 Blogs of Writer</h4>
@@ -12,19 +12,15 @@
                 </a>
             </div>
             <div class="col-md-7 blog-grid-right">
-
                 <h5>
-                    <a href="/blog/details/@item.Id">@item.Title</a>
+                    <a href="/blog/detail/@item.Id">@item.Title</a>
                 </h5>
                 <div class="sub-meta">
                     <span>
-                        <i class="far fa-clock"></i>@(@item.CreatedDate == default(DateTime) ? "--/--/--" : @item.CreatedDate)
+                        <i class="far fa-clock"></i>@(@item.CreatedDate == default(DateTime) ? "--/--" : @item.CreatedDate.ToString("dd/MMM/yyyy"))
                     </span>
                 </div>
             </div>
-
         </div>
     }
-    
-   
 </div>

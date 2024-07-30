@@ -6,18 +6,18 @@ using WebUI.Models;
 
 namespace WebUI.Controllers;
 
-public class RegisterUserController(UserManager<AppUser> userManger) : Controller
+public class RegisterController(UserManager<AppUser> userManger) : Controller
 {
     private readonly UserManager<AppUser> _userManger = userManger;
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult Index()
     {
         return View();
     }
 
     [HttpPost]
-    [Route("/RegisterUser")]
     public async Task<IActionResult> Index(UserSignUpViewModel model)
     {
         if (ModelState.IsValid)
@@ -32,7 +32,7 @@ public class RegisterUserController(UserManager<AppUser> userManger) : Controlle
             var result = await _userManger.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Login");
+                return Ok(new ApiResult { });
             }
             else
             {
@@ -43,6 +43,6 @@ public class RegisterUserController(UserManager<AppUser> userManger) : Controlle
             }
         }
 
-        return View();
+        return Ok(new ApiResult { IsSuccess = false });
     }
 }

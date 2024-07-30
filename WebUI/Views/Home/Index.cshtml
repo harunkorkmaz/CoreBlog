@@ -27,7 +27,7 @@
                                     <ul class="blog-icons">
                                         <li>
                                             <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">
-                                                <i class="far fa-calendar-alt"></i>  @(@item.CreatedDate == default(DateTime) ? "--/--/--" : ((DateTime)@item.CreatedDate).ToString("dd/MMM/yyyy"))
+                                                <i class="far fa-calendar-alt"></i>  @(@item.CreatedDate == default(DateTime) ? "--/--" : ((DateTime)@item.CreatedDate).ToString("MMMM/yyyy"))
                                             </a>
                                         </li>
                                         <li class="mx-2">
