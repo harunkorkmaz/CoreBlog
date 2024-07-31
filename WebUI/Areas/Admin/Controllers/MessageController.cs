@@ -41,7 +41,9 @@ public class MessageController(EfMessageRepository message2dal, UserManager<AppU
         var reciever = await userManager.FindByNameAsync(toWho);
         var recieverId = await blogContext.Users.Where(x => x.FullName == reciever.UserName).Select(x => x.Id).FirstOrDefaultAsync();
         var senderId = await blogContext.Users.Where(x => x.FullName == User.Identity.Name).Select(x => x.Id).FirstOrDefaultAsync();
-        if (recieverId == null) { return BadRequest(); }
+        
+        if (recieverId == null) 
+            return BadRequest(); 
         message.RecieverId = recieverId;
         message.SenderId = senderId;
 
