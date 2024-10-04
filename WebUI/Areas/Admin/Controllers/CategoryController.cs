@@ -13,42 +13,42 @@ public class CategoryController(EfCategoryReposiyory categoryDal) : Controller
 {
     // private readonly EfCategoryReposiyory _categoryDal = categoryDal;
 
-    [HttpGet("Index/{page?}")]
-    public IActionResult Index(int page = 1)
-    {
-        var items = categoryDal.GetListAll().ToPagedList(page, 3);
-        return View(items);
-    }
+    //[HttpGet("Index/{page?}")]
+    //public IActionResult Index(int page = 1)
+    //{
+    //    var items = categoryDal.GetListAll().ToPagedList(page, 3);
+    //    return View(items);
+    //}
 
-    [HttpGet("Add/")]
-    public IActionResult Add()
-    {
-        return View();
-    }
+    //[HttpGet("Add/")]
+    //public IActionResult Add()
+    //{
+    //    return View();
+    //}
 
-    [HttpPost("Add/")]
-    public IActionResult Add(Tag model)
-    {
-        // model.CategoryStatus = true;
-        //if (results.IsValid)
-        //{
-        categoryDal.Insert(model);
-        return RedirectToAction("Index");
-        //}
-        //else
-        //{
-        //    foreach (var item in results.Errors)
-        //    {
-        //        ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-        //    }
-        //    return View();
-        //}
-    }
+    //[HttpPost("Add/")]
+    //public IActionResult Add(Tag model)
+    //{
+    //    // model.CategoryStatus = true;
+    //    //if (results.IsValid)
+    //    //{
+    //    categoryDal.Insert(model);
+    //    return RedirectToAction("Index");
+    //    //}
+    //    //else
+    //    //{
+    //    //    foreach (var item in results.Errors)
+    //    //    {
+    //    //        ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+    //    //    }
+    //    //    return View();
+    //    //}
+    //}
 
-    [HttpPost("Delete/{id}")]
-    public IActionResult Delete(int id)
-    {
-        categoryDal.Delete(categoryDal.GetById(id));
-        return RedirectToAction("Index");
-    }
+    //[HttpPost("Delete/{id}")]
+    //public IActionResult Delete(int id)
+    //{
+    //    categoryDal.Delete(categoryDal.GetById(id));
+    //    return RedirectToAction("Index");
+    //}
 }

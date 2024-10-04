@@ -263,6 +263,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
 

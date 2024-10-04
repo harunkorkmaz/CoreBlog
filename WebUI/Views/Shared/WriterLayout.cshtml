@@ -3,14 +3,7 @@
 
 @{
     Layout = null;
-}
-
-@inject IUserDal tokenService;
-@{
-    var data = tokenService.GetLoggedUser();
-    AppUser LoginUser;
-    if (data != null) LoginUser = data.Data;
-    else { LoginUser = new AppUser(); }
+    AppUser LoginUser = new();
 }
 
 <!DOCTYPE html>

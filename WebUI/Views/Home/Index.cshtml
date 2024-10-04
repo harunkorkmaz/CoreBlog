@@ -2,75 +2,119 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Userlayout.cshtml";
 }
+@using DataAccessLayer.dto
 @using EntityLayer.Concrete
-@model List<Blog>
 
-<!--/main-->
-<section class="container row" style="justify-content: space-between;">
+@model PaginatedList<Blog>
 
-    <div class="  text-left">
-        @* <h3 class="tittle">Blog Posts</h3> *@
+<section class="container-fluid row mb-5">
+    <div class="col-md-8" style="padding: 0 0 0 200px;">
         <div class="inner-sec">
-            <!--left-->
-            <div class="">
-                <div class="">
-                    @foreach (var item in Model)
-                    {
-                        <div class="row my-2">
-                            <div class="col-md-3" style="padding: 0px !important;">
-                                <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">
-                                    <img src="@item.BlogImage" class="card-img-top img-fluid" alt="" style="align-items: stretch;display: flex;">
-                                </a>
-                            </div>
-                            <div class="col-md-9" style="padding-left: 0px;">
-                                <div class="card-body">
-                                    <ul class="blog-icons">
-                                        <li>
-                                            <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">
-                                                <i class="far fa-calendar-alt"></i>  @(@item.CreatedDate == default(DateTime) ? "--/--" : ((DateTime)@item.CreatedDate).ToString("MMMM/yyyy"))
-                                            </a>
-                                        </li>
-                                        <li class="mx-2">
-                                            <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">
-                                                <i class="far fa-eye"></i>
-                                                @if (item.Tags?.Count() > 0)
-                                                {
-                                                    @foreach (var tag in item.Tags)
-                                                    {
-                                                        <span>@tag.Name</span>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <span></span>
-                                                }
-                                            </a>
-                                        </li>
-                                        @* <li>
-                                            <a href="#">
-                                                <i class="fas fa-comment"></i> @item.BlogThumbnailImage
-                                            </a>
-                                        </li> *@
-                                    </ul>
-                                    <h5 class="card-title" style="margin-top: 10px !important;">
-                                        <a asp-action="Details" asp-controller="Blog" asp-route-id="@item.Id">@item.Title</a>
-                                    </h5>
-                                    <p class="card-text mb-3">
-                                        @item.Content.Substring(0, 130)...
-                                    </p>
-                                    <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Blog" class="btn btn-primary read-m">Read More</a>
-                                </div>
-                            </div>
+            <!-- Blog list -->
+            @foreach (var item in Model)
+            {
+                <div class="row my-4">
+                    <!-- Blog Image -->
+                    <div class="col-md-4" style="padding: 0;">
+                        <a asp-action="Detail" asp-controller="Blog" asp-route-id="@item.Id">
+                            <img src="@item.BlogImage" class="card-img-top img-fluid" alt="" style="">
+                        </a>
+                    </div>
 
+                    <!-- Blog Details -->
+                    <div class="col-md-8" style="padding-left: 1rem;">
+                        <div class="card-body">
+                            <ul class="list-inline blog-icons">
+                                <!-- Created Date -->
+                                <li class="list-inline-item">
+                                    <a asp-action="Detail" asp-controller="Blog" asp-route-id="@item.Id">
+                                        <i class="far fa-calendar-alt"></i>
+                                        @(item.CreatedDate == default(DateTime) ? "--/--" : item.CreatedDate.ToString("MMMM yyyy"))
+                                    </a>
+                                </li>
+
+                                <!-- Tags (Up to 3) -->
+                                <li class="list-inline-item">
+                                    <a asp-action="Detail" asp-controller="Blog" asp-route-id="@item.Id">
+                                        <i class="far fa-tags"></i>
+                                        @if (item.Tags?.Any() ?? false)
+                                        {
+                                            @foreach (var tag in item.Tags.Take(3))
+                                            {
+                                                <span class="badge badge-secondary">@tag.Name</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span>No Tags</span>
+                                        }
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <!-- Blog Title -->
+                            <h5 class="card-title mt-3">
+                                <a asp-action="Detail" asp-controller="Blog" asp-route-id="@item.Id">@item.Title</a>
+                            </h5>
+
+                            <!-- Blog Content -->
+                            <p class="card-text mb-3">
+                                @item.Content.Length > 130 ? @item.Content.Substring(0, 130) + "..." : @item.Content
+                            </p>
+
+                            <!-- Read More Button -->
+                            @* <a asp-action="Detail" asp-controller="Blog" asp-route-id="@item.Id" class="btn btn-primary">Read More</a> *@
                         </div>
-                    }
+                    </div>
                 </div>
-            </div>
+            }
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" tabindex="-1">Previous</a>
+                        </li>
+                    }
+
+                    @for (var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         </div>
     </div>
-        @* @await Html.PartialAsync("~/Views/Home/HomeRightPanel.cshtml") *@
-
+    <div class="col-md-4">
+        @await Html.PartialAsync("~/Views/Home/HomeRightPanel.cshtml")
+    </div>
 </section>
+<style>
+    p {
+        text-align: justify;
+        line-height: 1.8em;
+        letter-spacing: 0px;
+        font-weight: 400;
+    }
 
+    img {
+        width: 100%;
+        height: 250px;
+    }
 
-<!--//main-->
+    .blog-icons {
+        padding: 0;
+        margin: 0;
+    }
+</style>

@@ -18,6 +18,6 @@ public class NewsLetterController(EfNewsLetterRepository newsLetter) : Controlle
     {
         model.MailStatus = true;
         newsLetter.Insert(model);
-        return RedirectToAction("Details", "Blog", new { id = id });
+        return RedirectToAction("Detail", "Blog", new { id = id });
     }
 }

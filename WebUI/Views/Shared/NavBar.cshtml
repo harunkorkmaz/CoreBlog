@@ -1,13 +1,9 @@
 ﻿@using DataAccessLayer.Abstract;
 @using EntityLayer.Concrete;
 
-@inject IUserDal tokenService;
 
 @{
-    var data = tokenService.GetLoggedUser();
-    AppUser LoginUser;
-    if (data != null && data.IsSuccess) LoginUser = data.Data;
-    else { LoginUser = new AppUser(); }
+    AppUser LoginUser = new();
 }
 
 <!--Header-->

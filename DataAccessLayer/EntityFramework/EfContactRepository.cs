@@ -1,5 +1,5 @@
 ﻿using DataAccessLayer.Concrete;
-using DataAccessLayer.Repositores;
+
 using EntityLayer.Concrete;
 
 namespace DataAccessLayer.EntityFramework;

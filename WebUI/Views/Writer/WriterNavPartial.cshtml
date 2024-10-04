@@ -1,14 +1,9 @@
 ﻿@using DataAccessLayer.Abstract;
 @using EntityLayer.Concrete;
 
-@inject IUserDal tokenService;
 @{
-    var data = tokenService.GetLoggedUser();
-    AppUser LoginUser;
-    if (data != null) LoginUser = data.Data;
-    else { LoginUser = new AppUser(); }
+    AppUser LoginUser = new();
 }
-
 
 <!-- partial:~/writer/partials/_navbar.html -->
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">

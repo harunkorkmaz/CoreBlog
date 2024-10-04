@@ -1,5 +1,4 @@
-﻿using DataAccessLayer.ValidationRules;
-using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,33 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebUI.Controllers;
 
-public class BlogController(EfBlogRepository blogrepo, EfCommentRepository commentDal, EfCategoryReposiyory categoryDal, UserManager<AppUser> userManager) : Controller
+public class BlogController(EfBlogRepository _blogDal, EfCategoryReposiyory _categoryDal, UserManager<AppUser> _userManager) : Controller
 {
-    private readonly EfBlogRepository _blogDal = blogrepo;
-    private readonly EfCommentRepository _commentDal = commentDal;
-    private readonly EfCategoryReposiyory _categoryDal = categoryDal;
-    private readonly UserManager<AppUser> _userManager = userManager;
-
-    [AllowAnonymous]
-    public IActionResult Detail(int id)
+    public async Task<IActionResult> Detail(int id)
     {
-        // ViewBag.CommentCount = _commentDal.GetAllwithUser(id).Count;
         ViewBag.CommentCount = 12;
         return View(_blogDal.GetById(id));
     }
 
-    public IActionResult GetBLogByWriter()
+    public async Task<IActionResult> GetBLogByWriter()
     {
-        var userName = User.Identity?.Name;
-        if (userName == null)
-            return RedirectToAction("Index", "Home");
-        var userid = _userManager.Users.Where(x => x.UserName == userName).Select(x => x.Id).FirstOrDefault();
-        return View(_blogDal.GetAll(userid));
+        //_blogDal.GetAll(User.Identity?.Name ?? "")
+        return View();
     }
 
     [HttpGet]
     [Authorize]
-    public IActionResult Add(int? id)
+    public async Task<IActionResult> Add(int? id)
     {
         List<SelectListItem> categoryValues = (from x in _categoryDal.GetListAll()
                                                select new SelectListItem
@@ -58,29 +47,15 @@ public class BlogController(EfBlogRepository blogrepo, EfCommentRepository comme
 
     [HttpPost]
     [Authorize]
-    public IActionResult Add(Blog p)
+    public async Task<IActionResult> Add(Blog p)
     {
-        BlogValidator bv = new();
-        var results = bv.Validate(p);
-        if (results.IsValid)
-        {
-            _blogDal.Insert(p);
-            return RedirectToAction("GetBlogByWriter", "Blog");
-        }
-        else
-        {
-            foreach (var item in results.Errors)
-            {
-                ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-            }
-            return View();
-        }
+        _blogDal.Insert(p);
+        return RedirectToAction("GetBlogByWriter", "Blog");
     }
 
     [Authorize]
-    public IActionResult BlogDelete(int id)
+    public async Task<IActionResult> BlogDelete(int id)
     {
-        _blogDal.Delete(id);
-        return RedirectToAction("GetBLogByWriter");
+        return Ok(await _blogDal.DeleteAsync(id));
     }
 }

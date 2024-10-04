@@ -1,5 +1,5 @@
-﻿using DataAccessLayer.EntityFramework;
-using DataAccessLayer.Repositores;
+﻿using DataAccessLayer.dto;
+using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,10 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebUI.Controllers;
 
 [AllowAnonymous]
-public class CommentController(EfCommentRepository commentDal) : Controller
+public class CommentController(EfCommentRepository _commentDal) : Controller
 {
-    private readonly EfCommentRepository _commentDal = commentDal;
-
     public IActionResult Index()
     {
         return View();
@@ -27,9 +25,6 @@ public class CommentController(EfCommentRepository commentDal) : Controller
     {
         _commentDal.Insert(model);
 
-        return new ApiResult
-        {
-            Message = "Yorumunuz başarıyla eklendi.",
-        };
+        return ApiResult.Success();
     }
 }

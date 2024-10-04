@@ -7,10 +7,9 @@ namespace WebUI.Controllers;
 [AllowAnonymous]
 public class AboutController(EfAboutRepository aboutDal) : Controller
 {
-
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var items = aboutDal.GetListAll();
-        return View(items);
+        //aboutDal.GetListAll()
+        return View();
     }
 }

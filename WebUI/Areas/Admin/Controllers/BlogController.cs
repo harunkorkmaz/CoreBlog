@@ -11,36 +11,36 @@ namespace WebUI.Areas.Admin.Controllers;
 [Route("/Admin/[Controller]/[action]")]
 public class BlogController(BlogContext blogContext) : Controller
 {
-    public IActionResult ExportStaticExcelBlog()
-    {
+    //public IActionResult ExportStaticExcelBlog()
+    //{
 
-        using var wb = new XLWorkbook();
-        var worksheet = wb.Worksheets.Add("Blog List");
-        worksheet.Cell(1, 1).Value = "Blog Id";
-        worksheet.Cell(1, 2).Value = "Blog Name";
+    //    using var wb = new XLWorkbook();
+    //    var worksheet = wb.Worksheets.Add("Blog List");
+    //    worksheet.Cell(1, 1).Value = "Blog Id";
+    //    worksheet.Cell(1, 2).Value = "Blog Name";
 
-        int blogCount = 2;
-        foreach (var item in GetBlogList() as List<BlogModel>)
-        {
-            worksheet.Cell(blogCount, 1).Value = item.Id;
-            worksheet.Cell(blogCount, 2).Value = item.Name;
-            blogCount++;
-        }
+    //    int blogCount = 2;
+    //    foreach (var item in GetBlogList() as List<BlogModel>)
+    //    {
+    //        worksheet.Cell(blogCount, 1).Value = item.Id;
+    //        worksheet.Cell(blogCount, 2).Value = item.Name;
+    //        blogCount++;
+    //    }
 
-        using var stream = new MemoryStream();
-        wb.SaveAs(stream);
-        var content = stream.ToArray();
-        return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "myDocument.xlsx");
-    }
+    //    using var stream = new MemoryStream();
+    //    wb.SaveAs(stream);
+    //    var content = stream.ToArray();
+    //    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "myDocument.xlsx");
+    //}
 
-    public List<BlogModel> GetBlogList()
-    {
-        var temp = blogContext.Blogs.Select(x => new BlogModel { Id = x.Id, Name = x.Title }).ToList();
-        return temp ?? [];
-    }
+    //public List<BlogModel> GetBlogList()
+    //{
+    //    var temp = blogContext.Blogs.Select(x => new BlogModel { Id = x.Id, Name = x.Title }).ToList();
+    //    return temp ?? [];
+    //}
 
-    public IActionResult BlogListExcel()
-    {
-        return View();
-    }
+    //public IActionResult BlogListExcel()
+    //{
+    //    return View();
+    //}
 }

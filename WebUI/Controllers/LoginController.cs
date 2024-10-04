@@ -1,4 +1,6 @@
 ﻿using DataAccessLayer.Concrete;
+using DataAccessLayer.dto;
+using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -9,16 +11,8 @@ using WebUI.Models;
 
 namespace WebUI.Controllers;
 
-[AllowAnonymous]
-public class LoginController : Controller
+public class LoginController(SignInManager<AppUser> _signInManager, EfUserRepository efUser) : Controller
 {
-    private readonly SignInManager<AppUser> _signInManager;
-
-    public LoginController(SignInManager<AppUser> signInManager)
-    {
-        _signInManager = signInManager;
-    }
-
     [HttpGet]
     public async Task<IActionResult> Index()
     {
@@ -26,25 +20,16 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Index(UserSignInViewModel model)
+    public async Task<ApiResult> Index(UserSignInViewModel model)
     {
-        if (ModelState.IsValid)
-        {
-            var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, true);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            return RedirectToAction("Index", "Login");
-        }
-        return View("Index");
+        return await efUser.LoginAsync(model);
     }
 
     [Route("/login/logout")]
-    public async Task<IActionResult> Logout()
+    public async Task<ApiResult> Logout()
     {
         await _signInManager.SignOutAsync();
-        return RedirectToAction("Index", "Login");
+        return ApiResult.Success();
     }
 
     [HttpGet]

@@ -7,8 +7,6 @@ namespace WebUI.Areas.Admin.Controllers;
 
 public class AdminCommentController(EfCommentRepository commentDal) : Controller
 {
-
-
     public IActionResult Index()
     {
         var vals = commentDal.GetListAll();

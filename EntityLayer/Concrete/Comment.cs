@@ -19,6 +19,19 @@ public class Comment : BaseEntity
     public int? WriterId { get; set; }
     public int? UserId { get; set; }
     public AppUser? User { get; set; }
+}
 
-
+public class CommentResponseDto
+{
+    public int Id { get; set; }
+    public string Commenter { get; set; }
+    public string Content { get; set; }
+    public string Title { get; set; }
+    public int Score { get; set; }
+    public bool IsUser { get; set; }
+    public int BlogId { get; set; }
+    public string BlogTitle { get; set; }
+    public int? WriterId { get; set; }
+    public int? UserId { get; set; }
+    public string UserFullName { get; set; }
 }

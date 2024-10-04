@@ -1,16 +1,14 @@
-﻿using DataAccessLayer.EntityFramework;
+﻿using DataAccessLayer.dto;
+using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers;
 
-[AllowAnonymous]
-public class HomeController(EfBlogRepository blogrepo) : Controller
+public class HomeController(EfBlogRepository _blogrepo) : Controller
 {
-    private readonly EfBlogRepository _blogrepo = blogrepo;
-
-    public IActionResult Index()
+    public async Task<IActionResult> Index(FilterModel model)
     {
-        return View(_blogrepo.GetAll());
+        return View(await _blogrepo.GetAll(model));
     }
 }

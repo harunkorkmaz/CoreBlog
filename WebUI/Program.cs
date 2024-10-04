@@ -34,7 +34,6 @@ builder.Services.AddScoped<EfCategoryReposiyory>();
 builder.Services.AddScoped<EfAboutRepository>();
 builder.Services.AddScoped<EfMessageRepository>();
 
-builder.Services.AddScoped<IUserDal, EfUserRepository>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
     x => x.LoginPath = "/Login/Index"

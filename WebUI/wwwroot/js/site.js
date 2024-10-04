@@ -4,7 +4,7 @@ function PaginationIn(id, totalPage, startPage, url) {
     $(id).twbsPagination('destroy');
     window.pagObj = $(id).twbsPagination({
         totalPages: totalPage,
-        visiblePages: 9,
+        visiblePages: 4,
         startPage: startPage,
         first: 'İlk Sayfa',
         prev: 'Önceki',
